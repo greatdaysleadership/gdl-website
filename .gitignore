@@ -1,0 +1,5 @@
+.DS_Store
+.vercel/
+qa/
+Preview_*.png
+index_variant*.html
