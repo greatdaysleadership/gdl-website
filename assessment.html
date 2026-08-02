@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Great Days Index Snapshot – Great Days Leadership</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<noscript><style>.reveal{opacity:1 !important;transform:none !important;}</style></noscript>
+<style>
+/* ---- Assessment page-scoped styles ---- */
+.gdi-intro-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 70px; align-items: start; }
+.gdi-facts { list-style: none; }
+.gdi-facts li { display: grid; grid-template-columns: 44px 1fr; gap: 20px; padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.14); }
+.gdi-facts li:first-child { border-top: 0; }
+.gdi-facts .n { font-family: var(--serif); font-size: 28px; color: var(--orange); line-height: 1.2; }
+.gdi-facts strong { color: #fff; display: block; margin-bottom: 3px; }
+.gdi-facts p { color: #C9D6E0; font-size: 15px; }
+
+.gdi-step { max-width: 860px; }
+.gdi-step-label { font-size: 12.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange-deep); margin-bottom: 12px; }
+.gdi-step h2 { margin-bottom: 14px; }
+.gdi-step .stephint { color: var(--grey); font-size: 16px; margin-bottom: 40px; max-width: 640px; }
+
+.prequal { background: #fff; border: 1px solid var(--line); padding: 44px 48px; }
+.prequal .pq { margin-bottom: 30px; }
+.prequal .pq:last-child { margin-bottom: 0; }
+.prequal label.pq-label { display: block; font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--navy); margin-bottom: 10px; }
+.pq-opts { display: flex; flex-wrap: wrap; gap: 10px; }
+.pq-opts label { font-size: 14px; font-weight: 600; color: var(--navy); border: 1px solid var(--slate-light); padding: 9px 18px; border-radius: 2px; cursor: pointer; transition: all .15s; background: #fff; }
+.pq-opts input { position: absolute; opacity: 0; pointer-events: none; }
+.pq-opts label:hover { border-color: var(--orange-deep); color: var(--orange-deep); }
+.pq-opts label.sel { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+.anchor-key { background: var(--cream); padding: 26px 30px; margin-bottom: 44px; font-size: 14.5px; color: var(--grey); }
+.anchor-key strong { color: var(--navy); }
+.anchor-key ul { list-style: none; margin-top: 10px; }
+.anchor-key li { padding: 2px 0; }
+.anchor-key .k { display: inline-block; width: 18px; font-weight: 700; color: var(--orange-deep); }
+
+.dim-block { margin-bottom: 54px; }
+.dim-block .dim-title { font-size: 12.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--slate); margin-bottom: 6px; }
+.dim-block h3 { font-size: 24px; margin-bottom: 22px; }
+.q-row { background: #fff; border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 10px; display: grid; grid-template-columns: 1fr 260px; gap: 24px; align-items: center; }
+.q-row.missing { border-color: var(--orange-deep); }
+.q-row .stmt { font-size: 16px; color: var(--ink); line-height: 1.5; }
+.likert { display: flex; gap: 8px; justify-content: flex-end; }
+.likert label {
+  width: 42px; height: 42px; border: 1px solid var(--slate-light); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  font-size: 14.5px; font-weight: 700; color: var(--navy); transition: all .15s; background: #fff;
+}
+.likert input { position: absolute; opacity: 0; pointer-events: none; }
+.likert label:hover { border-color: var(--orange); }
+.likert label.sel { background: var(--orange); border-color: var(--orange); color: #fff; }
+
+.gate { background: var(--navy); color: #fff; padding: 48px 52px; }
+.gate h3 { color: #fff; font-size: 26px; margin-bottom: 10px; }
+.gate p { color: #C9D6E0; font-size: 15.5px; margin-bottom: 26px; max-width: 560px; }
+.gate .gfields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; }
+.gate input { font-family: var(--sans); font-size: 15.5px; padding: 13px 16px; border: 1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); color: #fff; width: 100%; }
+.gate input::placeholder { color: #8FB0C9; }
+.gate .gfields .full { grid-column: 1 / -1; }
+.gate .btn { border: 0; cursor: pointer; }
+.gate .gerr { color: #FFB27A; font-size: 14px; margin-top: 14px; display: none; }
+
+/* Results */
+#results { display: none; }
+.lever-scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-bottom: 26px; }
+.lever-score { background: #fff; border: 1px solid var(--line); padding: 32px 34px; }
+.lever-score .lv-name { font-size: 12.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--slate); margin-bottom: 14px; }
+.band-chip { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 6px 14px; border-radius: 2px; color: #fff; }
+.band-strong { background: var(--slate); }
+.band-strained { background: var(--orange); }
+.band-attn { background: var(--orange-deep); }
+.scorebar { height: 6px; background: var(--mist); margin-top: 18px; position: relative; }
+.scorebar .fill { position: absolute; left: 0; top: 0; bottom: 0; }
+.lever-score .lv-read { font-size: 14.5px; color: var(--grey); margin-top: 16px; }
+
+.dim-results { background: #fff; border: 1px solid var(--line); margin-bottom: 26px; }
+.dim-r { display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; padding: 20px 30px; border-top: 1px solid var(--line); }
+.dim-r:first-child { border-top: 0; }
+.dim-r .dr-name { font-size: 16px; font-weight: 700; color: var(--navy); }
+.dim-r .dr-lever { font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey-soft); margin-top: 2px; }
+
+.firstmove { background: var(--cream); padding: 44px 48px; margin-bottom: 26px; }
+.firstmove .fm-label { font-size: 12.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange-deep); margin-bottom: 14px; }
+.firstmove h3 { font-size: 24px; margin-bottom: 12px; }
+.firstmove p { color: var(--grey); font-size: 16px; max-width: 640px; margin-bottom: 8px; }
+.firstmove .fm-eng { margin-top: 22px; }
+
+.gapnote { border-left: 2px solid var(--orange); padding: 6px 0 6px 24px; margin: 40px 0; }
+.gapnote p { font-family: var(--serif); font-size: 20px; line-height: 1.55; color: var(--navy); max-width: 700px; }
+
+@media (max-width: 900px) {
+  .gdi-intro-grid { grid-template-columns: 1fr; gap: 44px; }
+  .q-row { grid-template-columns: 1fr; gap: 16px; }
+  .likert { justify-content: flex-start; }
+  .lever-scores { grid-template-columns: 1fr; }
+  .gate .gfields { grid-template-columns: 1fr; }
+  .prequal { padding: 30px 26px; }
+  .gate { padding: 34px 28px; }
+  .firstmove { padding: 32px 28px; }
+}
+
+.anchor-strip { position: sticky; top: 78px; z-index: 30; background: #fff; border: 1px solid var(--line); box-shadow: 0 8px 24px rgba(15,60,97,0.06); padding: 10px 22px; display: flex; gap: 22px; flex-wrap: wrap; font-size: 13px; color: var(--grey); margin-bottom: 34px; }
+.anchor-strip .k { font-weight: 700; color: var(--orange-deep); margin-right: 5px; }
+@media (max-width: 900px) { .anchor-strip { gap: 12px; font-size: 12px; padding: 9px 14px; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a class="nav-logo" href="index.html"><img src="assets/gdl_horiz_color.svg" alt="Great Days Leadership"></a>
+    <ul class="nav-links">
+      <li class="has-drop"><a href="index.html#portfolio">What We Do</a>
+        <ul class="drop">
+          <li class="drop-label">Your Leaders</li>
+          <li><a href="thecore.html">The Core</a></li>
+          <li><a href="elevate.html">Elevate</a></li>
+          <li class="drop-label">Your Organization</li>
+          <li><a href="align.html">Align</a></li>
+          <li><a href="accelerate.html">Accelerate</a></li>
+          <li><a href="navigate.html">Navigate</a></li>
+          <li class="drop-label">Your Board</li>
+          <li><a href="healthyboards.html">Healthy Boards</a></li>
+        </ul>
+      </li>
+      <li><a href="who-we-serve.html">Who We Serve</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="the-core-book.html">Books</a></li>
+      <li><a href="contact.html" class="btn btn-primary btn-nav">Start the Conversation</a></li>
+    </ul>
+    <button class="nav-burger" aria-label="Menu" onclick="document.querySelector('nav').classList.toggle('open')">&#9776;</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="page-hero band-navy on-dark" style="padding-bottom:100px;">
+  <div class="wrap gdi-intro-grid">
+    <div>
+      <span class="eyebrow">The Great Days Index &middot; Snapshot</span>
+      <h1 style="margin-top:22px;">How healthy is your leadership system?</h1>
+      <p class="lede" style="margin-top:20px;">This is the Snapshot edition of the Great Days Index, the integrating diagnostic behind every GDL engagement. Ten minutes, one leader's view, three lever scores: clarity, competency, and chemistry. The full Index reads your entire leadership team.</p>
+    </div>
+    <ul class="gdi-facts">
+      <li><span class="n">10</span><div><strong>Minutes, start to finish</strong><p>About twenty statements. Answer from evidence, not aspiration.</p></div></li>
+      <li><span class="n">3</span><div><strong>Lever scores</strong><p>Clarity, competency, and chemistry, each read separately.</p></div></li>
+      <li><span class="n">1</span><div><strong>First move</strong><p>The Snapshot points to where the work starts, not a sales pitch.</p></div></li>
+    </ul>
+  </div>
+</header>
+
+<!-- STEP 1: CONTEXT -->
+<section class="band-mist" id="context">
+  <div class="wrap gdi-step">
+    <div class="gdi-step-label reveal">Step 1 of 3</div>
+    <h2 class="reveal">A little context</h2>
+    <p class="stephint reveal">Results only mean something against the shape of your organization. Six quick selections, no free text.</p>
+    <div class="prequal reveal" id="prequal">
+      <div class="pq" data-pq="orgtype">
+        <label class="pq-label">Your organization is a...</label>
+        <div class="pq-opts">
+          <label><input type="radio" name="orgtype" value="business">Business</label>
+          <label><input type="radio" name="orgtype" value="highered">College or university</label>
+          <label><input type="radio" name="orgtype" value="nonprofit">Nonprofit</label>
+          <label><input type="radio" name="orgtype" value="other">Other</label>
+        </div>
+      </div>
+      <div class="pq" data-pq="role">
+        <label class="pq-label">Your role</label>
+        <div class="pq-opts">
+          <label><input type="radio" name="role" value="ceo">CEO / President / Executive Director</label>
+          <label><input type="radio" name="role" value="founder">Founder / Owner</label>
+          <label><input type="radio" name="role" value="exec">C-suite / VP / Cabinet</label>
+          <label><input type="radio" name="role" value="dir">Director / Manager</label>
+          <label><input type="radio" name="role" value="board">Board member</label>
+        </div>
+      </div>
+      <div class="pq" data-pq="headcount">
+        <label class="pq-label">Headcount</label>
+        <div class="pq-opts">
+          <label><input type="radio" name="headcount" value="u25">Under 25</label>
+          <label><input type="radio" name="headcount" value="25-100">25 to 100</label>
+          <label><input type="radio" name="headcount" value="100-500">100 to 500</label>
+          <label><input type="radio" name="headcount" value="500+">500+</label>
+        </div>
+      </div>
+      <div class="pq" data-pq="board">
+        <label class="pq-label">Do you have a governing board of directors or trustees?</label>
+        <div class="pq-opts">
+          <label><input type="radio" name="board" value="yes">Yes</label>
+          <label><input type="radio" name="board" value="no">No</label>
+        </div>
+      </div>
+      <div class="pq" data-pq="ownerled">
+        <label class="pq-label">Is the organization founder- or owner-led today?</label>
+        <div class="pq-opts">
+          <label><input type="radio" name="ownerled" value="yes">Yes</label>
+          <label><input type="radio" name="ownerled" value="no">No</label>
+        </div>
+      </div>
+      <div class="pq" data-pq="timing">
+        <label class="pq-label">Where are you with this kind of work?</label>
+        <div class="pq-opts">
+          <label><input type="radio" name="timing" value="active">Actively working on it</label>
+          <label><input type="radio" name="timing" value="exploring">Exploring options</label>
+          <label><input type="radio" name="timing" value="curious">Just curious</label>
+        </div>
+      </div>
+      <div class="pq" data-pq="priorfirm">
+        <label class="pq-label">Worked with an outside firm on leadership or organizational development?</label>
+        <div class="pq-opts">
+          <label><input type="radio" name="priorfirm" value="current">Currently</label>
+          <label><input type="radio" name="priorfirm" value="past">In the past</label>
+          <label><input type="radio" name="priorfirm" value="never">Never</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 2: STATEMENTS -->
+<section id="statements">
+  <div class="wrap gdi-step">
+    <div class="gdi-step-label reveal">Step 2 of 3</div>
+    <h2 class="reveal">The statements</h2>
+    <p class="stephint reveal">Rate each statement 1 to 5. The scale rewards evidence: a 5 means you could point to examples from the past month.</p>
+    <div class="anchor-key reveal">
+      <strong>The scale</strong>
+      <ul>
+        <li><span class="k">1</span> Not true of us. I can't recall this happening.</li>
+        <li><span class="k">2</span> Rarely true. Happens occasionally, not by design.</li>
+        <li><span class="k">3</span> Sometimes true. Depends on the person or the week.</li>
+        <li><span class="k">4</span> Usually true, with real exceptions.</li>
+        <li><span class="k">5</span> Consistently true. I could point to examples from the past month.</li>
+      </ul>
+    </div>
+    <div class="anchor-strip" aria-hidden="true">
+      <span><span class="k">1</span>Not true of us</span>
+      <span><span class="k">2</span>Rarely true</span>
+      <span><span class="k">3</span>Sometimes true</span>
+      <span><span class="k">4</span>Usually true</span>
+      <span><span class="k">5</span>Consistently true</span>
+    </div>
+    <div id="qcontainer"></div>
+  </div>
+</section>
+
+<!-- STEP 3: GATE -->
+<section class="band-mist" id="reveal-step">
+  <div class="wrap gdi-step">
+    <div class="gdi-step-label reveal">Step 3 of 3</div>
+    <h2 class="reveal">Your Snapshot</h2>
+    <p class="stephint reveal">Tell us where to send the written version and we'll put your results on screen now.</p>
+    <div class="gate reveal" id="gate">
+      <h3>See your Index Snapshot</h3>
+      <p>Your three lever scores, the read behind each, and the first move the Snapshot points to. We deliver the written version to your work email, so a personal inbox won't work for this one.</p>
+      <div class="gfields">
+        <input type="text" id="g-name" placeholder="Your name" autocomplete="name">
+        <input type="text" id="g-org" placeholder="Organization" autocomplete="organization">
+        <input type="email" id="g-email" class="full" placeholder="you@organization.com" autocomplete="email">
+      </div>
+      <button class="btn btn-primary" id="g-submit">Show My Results</button>
+      <div class="gerr" id="g-err"></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Your Great Days Index Snapshot</span>
+      <h2 id="r-headline">Here's what one leader's view shows.</h2>
+      <p class="lede" id="r-sub"></p>
+    </div>
+    <div class="lever-scores" id="r-levers"></div>
+    <div class="dim-results" id="r-dims"></div>
+    <div class="firstmove" id="r-firstmove"></div>
+    <div class="gapnote">
+      <p>One more thing, and it matters: this Snapshot reflects one leader's view. When we run the full Great Days Index, leadership teams routinely diverge from the senior leader's read, and the gap is usually where the real cost sits.</p>
+    </div>
+    <div class="hero-ctas">
+      <a href="contact.html" class="btn btn-primary">Talk Through Your Results</a>
+      <a href="index.html#method" class="btn btn-ghost">See How the Full Index Works</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <img src="assets/gdl_horiz_white.svg" alt="Great Days Leadership">
+        <p>Helping organizations thrive by growing leaders and strengthening teams.</p>
+      </div>
+      <div>
+        <div class="foot-head">Engagements</div>
+        <ul>
+          <li><a href="thecore.html">The Core</a></li>
+          <li><a href="elevate.html">Elevate</a></li>
+          <li><a href="align.html">Align</a></li>
+          <li><a href="accelerate.html">Accelerate</a></li>
+          <li><a href="navigate.html">Navigate</a></li>
+          <li><a href="healthyboards.html">Healthy Boards</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="foot-head">Company</div>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="who-we-serve.html">Who We Serve</a></li>
+          <li><a href="insights.html">Insights</a></li>
+          <li><a href="the-core-book.html">Books</a></li>
+          <li><a href="contact.html">Start the Conversation</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="foot-head">Contact</div>
+        <ul>
+          <li>Great Days Leadership, LLC</li>
+          <li>5123 Virginia Way, Suite C13</li>
+          <li>Brentwood, TN 37027</li>
+          <li><a href="mailto:info@greatdaysleadership.com">info@greatdaysleadership.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>© 2026 Great Days Leadership, LLC. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- Data ---------- */
+const ANCHOR_TITLES = [
+  '1 – Not true of us. I can\'t recall this happening.',
+  '2 – Rarely true. Happens occasionally, not by design.',
+  '3 – Sometimes true. Depends on the person or the week.',
+  '4 – Usually true, with real exceptions.',
+  '5 – Consistently true. I could point to examples from the past month.'
+];
+
+const FREE_DOMAINS = ['gmail.com','googlemail.com','yahoo.com','ymail.com','hotmail.com','outlook.com','live.com','msn.com','icloud.com','me.com','mac.com','aol.com','proton.me','protonmail.com','pm.me','gmx.com','gmx.net','mail.com','zoho.com','yandex.com','comcast.net','att.net','verizon.net','sbcglobal.net','bellsouth.net','charter.net','cox.net','earthlink.net'];
+
+const DIMS = [
+  { id:'direction', lever:'Clarity', name:'Direction and priorities', eng:{name:'Align', href:'align.html'},
+    read:'Whether the organization knows where it is going, and whether that direction actually shapes decisions.',
+    items:[
+      'Everyone on our leadership team would give the same answer to "what are our top three priorities this year."',
+      'In the past year, we said no to a real opportunity because it didn\'t fit our strategy.',
+      'People here can explain how their work connects to where the organization is headed.'
+    ]},
+  { id:'change', lever:'Clarity', name:'Change readiness', eng:{name:'Navigate', href:'navigate.html'},
+    read:'How the organization moves through seasons of change: deliberately, or bracing for impact.',
+    items:[
+      'When change is coming, our people hear it from leadership first, with the reasons why.',
+      'We adjust plans deliberately instead of reacting to whatever the week brings.',
+      'Past transitions here have landed without losing people we wanted to keep.',
+      'We have a working point of view on what AI means for our organization, and our people have heard it from us.'
+    ]},
+  { id:'leaders', lever:'Competency', name:'How leaders grow people', eng:{name:'The Core', href:'thecore.html'},
+    read:'Whether leading here means developing people, or just keeping the work moving.',
+    items:[
+      'Our managers develop people; they don\'t just direct work.',
+      'Leaders here hold hard conversations within weeks, not quarters.',
+      'Our high performers could name their next step of growth here.'
+    ]},
+  { id:'bench', lever:'Competency', name:'Leadership bench', eng:{name:'Elevate', href:'elevate.html'},
+    read:'Whether the next generation of leaders is being built on purpose, or promoted and left to figure it out.',
+    items:[
+      'If a key leader left tomorrow, we know who steps in.',
+      'We promote for leadership ability, not tenure or technical skill alone.',
+      'New managers get equipped for leading people before they\'re left to figure it out.'
+    ]},
+  { id:'team', lever:'Chemistry', name:'Leadership team health', eng:{name:'Align', href:'align.html'},
+    read:'Whether the leadership team operates as one team, or as a collection of departments.',
+    items:[
+      'Our leadership team debates hard issues in the room, not in hallways afterward.',
+      'When two departments disagree, it gets resolved without the senior leader stepping in.',
+      'Members of our leadership team hold each other accountable, peer to peer.',
+      'I trust every member of our leadership team to put the organization ahead of their own area.'
+    ]},
+  { id:'culture', lever:'Chemistry', name:'Culture and retention', eng:{name:'The Core', href:'thecore.html'},
+    read:'Whether the culture keeps the people you most want to keep.',
+    items:[
+      'Our best people could tell you why they stay.',
+      'People here raise bad news early, without fear.',
+      'Last year\'s turnover was people we chose to lose, not people we couldn\'t keep.'
+    ]}
+];
+
+const FOUNDER_DIM = { id:'founder', lever:null, name:'Founder load', eng:{name:'Accelerate', href:'accelerate.html'},
+  read:'How much of the organization still runs through you.',
+  items:[
+    'The organization could run for a month without me and not stumble.',
+    'Decisions of consequence get made well without waiting on me.'
+  ]};
+
+const BOARD_DIM = { id:'boarddim', lever:null, name:'Board and governance', eng:{name:'Healthy Boards', href:'healthyboards.html'},
+  read:'Whether the board is governing, or attending.',
+  items:[
+    'Our board spends more time on the future than reviewing the past.',
+    'Board members know what is theirs to decide versus what is management\'s.',
+    'We can name the expertise gaps on our current board.',
+    'Board meetings would be worth attending even if attendance were optional.'
+  ]};
+
+const BANDS = {
+  strong:   { label:'Strong',          cls:'band-strong',   color:'var(--slate)' },
+  strained: { label:'Strained',        cls:'band-strained', color:'var(--orange)' },
+  attn:     { label:'Needs attention', cls:'band-attn',     color:'var(--orange-deep)' }
+};
+function band(avg){ return avg >= 4.25 ? BANDS.strong : (avg >= 3.25 ? BANDS.strained : BANDS.attn); }
+
+const LEVER_READS = {
+  Clarity: {
+    strong:'Direction is set and shaping decisions. Protect it as you grow.',
+    strained:'The direction exists, but it isn\'t governing the week-to-week yet.',
+    attn:'The organization is working hard without a shared answer to "toward what?"'
+  },
+  Competency: {
+    strong:'Leaders here grow people, and the bench shows it.',
+    strained:'Good leaders, uneven leadership. Development is happening by personality, not design.',
+    attn:'People are being managed, not led, and the bench is thin.'
+  },
+  Chemistry: {
+    strong:'The team is doing real work in the room together. That\'s rare, keep it.',
+    strained:'Polite is doing the work trust should be doing.',
+    attn:'The hard conversations are happening in hallways, and the organization can feel it.'
+  }
+};
+
+/* ---------- Build questions ---------- */
+const qc = document.getElementById('qcontainer');
+function renderDims(){
+  const state = pqState();
+  const dims = [...DIMS];
+  if (state.founderMod) dims.push(FOUNDER_DIM);
+  if (state.boardMod) dims.push(BOARD_DIM);
+  const answers = collectAnswers(); // preserve on re-render
+  qc.innerHTML = '';
+  dims.forEach(d => {
+    const block = document.createElement('div');
+    block.className = 'dim-block reveal in';
+    block.innerHTML = '<div class="dim-title">' + (d.lever ? d.lever : 'Your situation') + '</div><h3>' + d.name + '</h3>';
+    d.items.forEach((stmt, i) => {
+      const qid = d.id + '_' + i;
+      const row = document.createElement('div');
+      row.className = 'q-row';
+      row.dataset.qid = qid;
+      let radios = '';
+      for (let v = 1; v <= 5; v++) {
+        const checked = answers[qid] === v ? ' checked' : '';
+        const sel = answers[qid] === v ? ' class="sel"' : '';
+        radios += '<label' + sel + ' title="' + ANCHOR_TITLES[v-1] + '"><input type="radio" name="' + qid + '" value="' + v + '"' + checked + '>' + v + '</label>';
+      }
+      row.innerHTML = '<div class="stmt">' + stmt + '</div><div class="likert">' + radios + '</div>';
+      block.appendChild(row);
+    });
+    qc.appendChild(block);
+  });
+}
+function collectAnswers(){
+  const out = {};
+  document.querySelectorAll('#qcontainer input[type=radio]:checked').forEach(r => { out[r.name] = parseInt(r.value, 10); });
+  return out;
+}
+function pqState(){
+  const get = n => { const el = document.querySelector('input[name=' + n + ']:checked'); return el ? el.value : null; };
+  const role = get('role'), ownerled = get('ownerled'), boardYes = get('board');
+  return {
+    orgtype: get('orgtype'), role, headcount: get('headcount'),
+    timing: get('timing'), priorfirm: get('priorfirm'), ownerled,
+    founderMod: role === 'founder' || (ownerled === 'yes' && (role === 'ceo' || role === 'founder')),
+    boardMod: boardYes === 'yes' || role === 'board'
+  };
+}
+
+/* ---------- Selection styling + conditional re-render ---------- */
+document.addEventListener('change', e => {
+  const input = e.target;
+  if (input.type !== 'radio') return;
+  document.querySelectorAll('input[name=' + input.name + ']').forEach(r => r.closest('label').classList.remove('sel'));
+  input.closest('label').classList.add('sel');
+  if (input.closest('#prequal')) renderDims();
+  if (input.closest('.q-row')) input.closest('.q-row').classList.remove('missing');
+});
+renderDims();
+
+/* ---------- Scoring + results ---------- */
+document.getElementById('g-submit').addEventListener('click', () => {
+  const err = document.getElementById('g-err');
+  err.style.display = 'none';
+
+  // validate items
+  const missing = [];
+  document.querySelectorAll('#qcontainer .q-row').forEach(row => {
+    row.classList.remove('missing');
+    if (!document.querySelector('input[name=' + row.dataset.qid + ']:checked')) missing.push(row);
+  });
+  if (missing.length) {
+    missing.forEach(r => r.classList.add('missing'));
+    err.textContent = missing.length + ' statement' + (missing.length > 1 ? 's' : '') + ' still unanswered. They\'re outlined above.';
+    err.style.display = 'block';
+    missing[0].scrollIntoView({ behavior:'smooth', block:'center' });
+    return;
+  }
+  // validate email
+  const email = document.getElementById('g-email').value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    err.textContent = 'A valid email is needed to send the written Snapshot.';
+    err.style.display = 'block';
+    return;
+  }
+  const domain = email.split('@')[1].toLowerCase();
+  if (FREE_DOMAINS.includes(domain)) {
+    err.textContent = 'The Snapshot reads an organization, so we deliver it to a work email. Yours looks like a personal inbox – swap in your organization address and you\'re set.';
+    err.style.display = 'block';
+    return;
+  }
+
+  const state = pqState();
+  const answers = collectAnswers();
+  const dims = [...DIMS];
+  if (state.founderMod) dims.push(FOUNDER_DIM);
+  if (state.boardMod) dims.push(BOARD_DIM);
+
+  // dimension averages
+  dims.forEach(d => {
+    const vals = d.items.map((_, i) => answers[d.id + '_' + i]);
+    d.avg = vals.reduce((a, b) => a + b, 0) / vals.length;
+  });
+
+  // lever averages (core dims only)
+  const levers = ['Clarity', 'Competency', 'Chemistry'].map(lv => {
+    const lds = dims.filter(d => d.lever === lv);
+    const avg = lds.reduce((a, d) => a + d.avg, 0) / lds.length;
+    return { name: lv, avg, band: band(avg) };
+  });
+
+  // render lever cards
+  document.getElementById('r-levers').innerHTML = levers.map(lv => {
+    const key = lv.band === BANDS.strong ? 'strong' : (lv.band === BANDS.strained ? 'strained' : 'attn');
+    return '<div class="lever-score">' +
+      '<div class="lv-name">' + lv.name + '</div>' +
+      '<span class="band-chip ' + lv.band.cls + '">' + lv.band.label + '</span>' +
+      '<div class="scorebar"><div class="fill" style="width:' + Math.round((lv.avg / 5) * 100) + '%; background:' + lv.band.color + ';"></div></div>' +
+      '<div class="lv-read">' + LEVER_READS[lv.name][key] + '</div>' +
+    '</div>';
+  }).join('');
+
+  // render dimension rows
+  document.getElementById('r-dims').innerHTML = dims.map(d =>
+    '<div class="dim-r"><div><div class="dr-name">' + d.name + '</div>' +
+    '<div class="dr-lever">' + (d.lever ? d.lever : 'Your situation') + '</div></div>' +
+    '<span class="band-chip ' + band(d.avg).cls + '">' + band(d.avg).label + '</span></div>'
+  ).join('');
+
+  // first move: founder load wins if weak and present; otherwise lowest dimension
+  let target = dims.reduce((a, b) => (b.avg < a.avg ? b : a));
+  const fd = dims.find(d => d.id === 'founder');
+  if (fd && fd.avg <= 3 && fd.avg <= target.avg + 0.5) target = fd;
+
+  const attnCount = dims.filter(d => band(d.avg) !== BANDS.strong).length;
+  document.getElementById('r-sub').textContent =
+    attnCount === 0
+      ? 'A strong self-read across the board. The question the full Index answers: does your team see it the same way?'
+      : 'The Snapshot reads ' + dims.length + ' dimensions. ' + attnCount + ' of them ' + (attnCount === 1 ? 'is' : 'are') + ' carrying strain, and one points to your first move.';
+
+  document.getElementById('r-firstmove').innerHTML =
+    '<div class="fm-label">Your first move</div>' +
+    '<h3>' + target.name + '</h3>' +
+    '<p>' + target.read + ' This came back as your lowest read, which usually means it\'s quietly taxing everything else.</p>' +
+    '<p>The engagement built for this moment is <strong style="color:var(--navy);">' + target.eng.name + '</strong>.</p>' +
+    '<div class="fm-eng"><a class="btn btn-ghost" href="' + target.eng.href + '">Explore ' + target.eng.name + '</a></div>';
+
+  // reveal
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').scrollIntoView({ behavior:'smooth' });
+
+  // Mockup note: submission intentionally not wired (matches the rest of the preview site).
+  // Production: POST {answers, state, name, org, email} to the lead endpoint here.
+  // Production flow also sends a confirmation link to the work email and releases results
+  // only after that link is clicked; this mockup shows results immediately after the domain check.
+  console.log('GDI snapshot (mockup, not transmitted):', { state, answers, email,
+    name: document.getElementById('g-name').value.trim(), org: document.getElementById('g-org').value.trim() });
+});
+
+/* ---------- Reveal on scroll ---------- */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
