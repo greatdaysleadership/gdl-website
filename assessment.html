@@ -43,7 +43,12 @@
 .dim-block { margin-bottom: 54px; }
 .dim-block .dim-title { font-size: 12.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--slate); margin-bottom: 6px; }
 .dim-block h3 { font-size: 24px; margin-bottom: 22px; }
-.q-row { background: #fff; border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 10px; display: grid; grid-template-columns: 1fr 260px; gap: 24px; align-items: center; }
+.q-row { background: #fff; border: 1px solid var(--line); padding: 22px 26px; margin-bottom: 10px; display: grid; grid-template-columns: 1fr 260px; gap: 24px; align-items: start; }
+.scale-mini { margin-top: 10px; font-size: 12.5px; color: var(--grey); line-height: 1.55; }
+.scale-mini span { display: block; }
+.scale-mini .k { font-weight: 700; color: var(--orange-deep); margin-right: 6px; }
+.echo { margin-top: 10px; font-size: 13.5px; color: var(--navy); background: var(--cream); padding: 8px 12px; display: none; }
+.likert { margin-top: 4px; }
 .q-row.missing { border-color: var(--orange-deep); }
 .q-row .stmt { font-size: 16px; color: var(--ink); line-height: 1.5; }
 .likert { display: flex; gap: 8px; justify-content: flex-end; }
@@ -105,9 +110,6 @@
   .firstmove { padding: 32px 28px; }
 }
 
-.anchor-strip { position: sticky; top: 78px; z-index: 30; background: #fff; border: 1px solid var(--line); box-shadow: 0 8px 24px rgba(15,60,97,0.06); padding: 10px 22px; display: flex; gap: 22px; flex-wrap: wrap; font-size: 13px; color: var(--grey); margin-bottom: 34px; }
-.anchor-strip .k { font-weight: 700; color: var(--orange-deep); margin-right: 5px; }
-@media (max-width: 900px) { .anchor-strip { gap: 12px; font-size: 12px; padding: 9px 14px; } }
 </style>
 </head>
 <body>
@@ -229,23 +231,10 @@
   <div class="wrap gdi-step">
     <div class="gdi-step-label reveal">Step 2 of 3</div>
     <h2 class="reveal">The statements</h2>
-    <p class="stephint reveal">Rate each statement 1 to 5. The scale rewards evidence: a 5 means you could point to examples from the past month.</p>
+    <p class="stephint reveal">Rate each statement 1 to 5. Each one describes what a 1, 3, and 5 look like, so you are matching a picture, not guessing a number.</p>
     <div class="anchor-key reveal">
-      <strong>The scale</strong>
-      <ul>
-        <li><span class="k">1</span> Not true of us. I can't recall this happening.</li>
-        <li><span class="k">2</span> Rarely true. Happens occasionally, not by design.</li>
-        <li><span class="k">3</span> Sometimes true. Depends on the person or the week.</li>
-        <li><span class="k">4</span> Usually true, with real exceptions.</li>
-        <li><span class="k">5</span> Consistently true. I could point to examples from the past month.</li>
-      </ul>
-    </div>
-    <div class="anchor-strip" aria-hidden="true">
-      <span><span class="k">1</span>Not true of us</span>
-      <span><span class="k">2</span>Rarely true</span>
-      <span><span class="k">3</span>Sometimes true</span>
-      <span><span class="k">4</span>Usually true</span>
-      <span><span class="k">5</span>Consistently true</span>
+      <strong>How the scale works</strong>
+      <p style="margin-top:8px;">Every statement shows what a 1, a 3, and a 5 look like for that specific question. A 2 means between the 1 and the 3; a 4 means between the 3 and the 5. For the exact meaning of any number, hover over it. On a phone, tap a number and its meaning appears under the statement so you can adjust if it does not match.</p>
     </div>
     <div id="qcontainer"></div>
   </div>
@@ -338,78 +327,72 @@
 
 <script>
 /* ---------- Data ---------- */
-const ANCHOR_TITLES = [
-  '1 – Not true of us. I can\'t recall this happening.',
-  '2 – Rarely true. Happens occasionally, not by design.',
-  '3 – Sometimes true. Depends on the person or the week.',
-  '4 – Usually true, with real exceptions.',
-  '5 – Consistently true. I could point to examples from the past month.'
-];
 
 const FREE_DOMAINS = ['gmail.com','googlemail.com','yahoo.com','ymail.com','hotmail.com','outlook.com','live.com','msn.com','icloud.com','me.com','mac.com','aol.com','proton.me','protonmail.com','pm.me','gmx.com','gmx.net','mail.com','zoho.com','yandex.com','comcast.net','att.net','verizon.net','sbcglobal.net','bellsouth.net','charter.net','cox.net','earthlink.net'];
 
+const ITEM_ANCHORS = {};
 const DIMS = [
   { id:'direction', lever:'Clarity', name:'Direction and priorities', eng:{name:'Align', href:'align.html'},
     read:'Whether the organization knows where it is going, and whether that direction actually shapes decisions.',
     items:[
-      'Everyone on our leadership team would give the same answer to "what are our top three priorities this year."',
-      'In the past year, we said no to a real opportunity because it didn\'t fit our strategy.',
-      'People here can explain how their work connects to where the organization is headed.'
+      {t:"Everyone on our leadership team would give the same answer to \"what are our top three priorities this year.\"", a:["Ask five leaders, get five different lists.","A couple of shared themes, framed differently by each person.","Rough agreement on the big rocks, fuzzy past the first one or two.","The same short list from almost everyone, minor wording differences.","Same three priorities, same order, from anyone you ask."]},
+      {t:"In the past year, we said no to a real opportunity because it didn't fit our strategy.", a:["We chase whatever revenue shows up; no has never happened.","We hesitate on off-strategy work but usually find a reason to take it.","We have passed on small things; nothing that actually hurt to decline.","One real no this year, and strategy made the call.","Real opportunities declined without drama; the strategy decides for us."]},
+      {t:"People here can explain how their work connects to where the organization is headed.", a:["Direction lives in leadership's heads; people just do their jobs.","People know the slogan, not what it means for their work.","Some teams see the line; others are guessing.","Most people can draw the line from their week to the direction.","Anyone here can tell you why their work matters to where we are going."]}
     ]},
   { id:'change', lever:'Clarity', name:'Change readiness', eng:{name:'Navigate', href:'navigate.html'},
     read:'How the organization moves through seasons of change: deliberately, or bracing for impact.',
     items:[
-      'When change is coming, our people hear it from leadership first, with the reasons why.',
-      'We adjust plans deliberately instead of reacting to whatever the week brings.',
-      'Past transitions here have landed without losing people we wanted to keep.',
-      'We have a working point of view on what AI means for our organization, and our people have heard it from us.'
+      {t:"When change is coming, our people hear it from leadership first, with the reasons why.", a:["Change arrives by surprise or through the rumor mill.","Announcements come late and light on the why.","We communicate the what; the why is inconsistent.","People usually hear it from us first, reasons included.","Leadership is always the first voice, and the why leads."]},
+      {t:"We adjust plans deliberately instead of reacting to whatever the week brings.", a:["The loudest fire sets the agenda every week.","We aim for a plan, but urgency usually wins.","Deliberate on the big things; reactive everywhere else.","Most changes are decided, not triggered.","Plans change on purpose, with a decision trail people can see."]},
+      {t:"Past transitions here have landed without losing people we wanted to keep.", a:["Every big change has cost us someone we regret losing.","Transitions shake people loose more often than we admit.","A mixed record; some clean landings, some painful exits.","Rare regrettable exits, and we understood why each happened.","Change here has not cost us people we wanted to keep."]},
+      {t:"We have a working point of view on what AI means for our organization, and our people have heard it from us.", a:["We have not addressed it; people are guessing or using it quietly.","Leaders trade opinions; nothing agreed, nothing shared.","Leadership has a rough stance; the team has not heard it.","A stated position exists and most people have heard it.","Clear point of view, shared with everyone, revisited as things change."]}
     ]},
   { id:'leaders', lever:'Competency', name:'How leaders grow people', eng:{name:'The Core', href:'thecore.html'},
     read:'Whether leading here means developing people, or just keeping the work moving.',
     items:[
-      'Our managers develop people; they don\'t just direct work.',
-      'Leaders here hold hard conversations within weeks, not quarters.',
-      'Our high performers could name their next step of growth here.'
+      {t:"Our managers develop people; they don't just direct work.", a:["Managers assign, check, and correct. That is the job here.","Development happens if an employee pushes for it.","A few managers grow people; most manage tasks.","Most managers coach as part of the weekly rhythm.","Developing people is what managing means here, and it shows."]},
+      {t:"Leaders here hold hard conversations within weeks, not quarters.", a:["Hard conversations get avoided until something breaks.","We circle problems for months before naming them.","Depends on the leader; some act, some wait.","Most issues get named within weeks, kindly and directly.","Hard conversations happen fast enough that issues stay small."]},
+      {t:"Our high performers could name their next step of growth here.", a:["Growth paths do not exist; people grow by leaving.","Next steps come up only when someone threatens to go.","Some high performers have a path; most have a hope.","Most high performers know their next step and believe it.","Every high performer has a named next step and movement toward it."]}
     ]},
   { id:'bench', lever:'Competency', name:'Leadership bench', eng:{name:'Elevate', href:'elevate.html'},
     read:'Whether the next generation of leaders is being built on purpose, or promoted and left to figure it out.',
     items:[
-      'If a key leader left tomorrow, we know who steps in.',
-      'We promote for leadership ability, not tenure or technical skill alone.',
-      'New managers get equipped for leading people before they\'re left to figure it out.'
+      {t:"If a key leader left tomorrow, we know who steps in.", a:["A key departure would be a crisis; no names come to mind.","We would scramble, then probably hire from outside.","We have instincts about who steps up; nothing discussed or developed.","Successors identified for most seats, development underway.","Named, prepared successors for every key seat."]},
+      {t:"We promote for leadership ability, not tenure or technical skill alone.", a:["Promotion is a reward for output or years served.","Leadership ability gets discussed, then output decides anyway.","A mixed record; our best doer usually still wins.","Leadership ability usually decides, with occasional lapses.","We promote leaders, and pass on great doers who are not ready."]},
+      {t:"New managers get equipped for leading people before they're left to figure it out.", a:["Congratulations and a calendar full of meetings; that is the onboarding.","A book or a course, then sink or swim.","Some support if they ask; nothing built in.","Real preparation for most new managers, uneven follow-through.","Every new manager is equipped before the team feels the learning curve."]}
     ]},
   { id:'team', lever:'Chemistry', name:'Leadership team health', eng:{name:'Align', href:'align.html'},
     read:'Whether the leadership team operates as one team, or as a collection of departments.',
     items:[
-      'Our leadership team debates hard issues in the room, not in hallways afterward.',
-      'When two departments disagree, it gets resolved without the senior leader stepping in.',
-      'Members of our leadership team hold each other accountable, peer to peer.',
-      'I trust every member of our leadership team to put the organization ahead of their own area.'
+      {t:"Our leadership team debates hard issues in the room, not in hallways afterward.", a:["Meetings are polite; the real meeting happens afterward.","A few voices engage; the rest save it for the hallway.","We debate the safe topics; the hot ones wait.","Most hard issues get argued in the room to a decision.","The room is where disagreement lives; hallways are for coffee."]},
+      {t:"When two departments disagree, it gets resolved without the senior leader stepping in.", a:["Every cross-team conflict escalates to the top.","Peers try, then hand it up more often than not.","A coin flip: sometimes peers settle it, sometimes it climbs.","Most conflicts resolve peer to peer; escalation is rare.","Peers settle it and inform up; escalation is news."]},
+      {t:"Members of our leadership team hold each other accountable, peer to peer.", a:["Accountability flows one direction: down.","Peers vent about each other, rarely to each other.","Some peer accountability among a trusted few.","Most of the team calls things directly, most of the time.","Peers hold the standard so the leader rarely has to."]},
+      {t:"I trust every member of our leadership team to put the organization ahead of their own area.", a:["Turf wins; budgets and headcount prove it.","Team-first talk, department-first behavior.","Most act enterprise-first until it costs their area something.","Nearly everyone, nearly always, even at a cost.","Every member, even when their own area loses."]}
     ]},
   { id:'culture', lever:'Chemistry', name:'Culture and retention', eng:{name:'The Core', href:'thecore.html'},
     read:'Whether the culture keeps the people you most want to keep.',
     items:[
-      'Our best people could tell you why they stay.',
-      'People here raise bad news early, without fear.',
-      'Last year\'s turnover was people we chose to lose, not people we couldn\'t keep.'
+      {t:"Our best people could tell you why they stay.", a:["Honestly, we are not sure why they stay, and it worries us.","They stay from inertia and relationships, not conviction.","Some could name it; others would pause too long.","Most would give a fast, specific answer.","Ask any of them; the answer is quick and it is the same story."]},
+      {t:"People here raise bad news early, without fear.", a:["Bad news surfaces late, softened, or through the grapevine.","People test the waters before saying anything real.","Some people speak up; others wait to see who asks.","Most problems get named early by whoever sees them.","Bad news travels fastest here, and messengers get thanked."]},
+      {t:"Last year's turnover was people we chose to lose, not people we couldn't keep.", a:["We lost people we badly wanted to keep.","More regrettable exits than we would like to admit.","A mix, roughly even, and some stung.","Mostly healthy turnover, with one or two exceptions.","The people we wanted stayed; the turnover was on purpose."]}
     ]}
 ];
 
 const FOUNDER_DIM = { id:'founder', lever:null, name:'Founder load', eng:{name:'Accelerate', href:'accelerate.html'},
   read:'How much of the organization still runs through you.',
   items:[
-    'The organization could run for a month without me and not stumble.',
-    'Decisions of consequence get made well without waiting on me.'
-  ]};
+      {t:"The organization could run for a month without me and not stumble.", a:["A week away and things pile up or stall.","Short absences work; anything longer gets shaky.","A month would pass, but decisions would queue for my return.","A month runs fine; only the biggest calls would wait.","A month away and most people would barely notice."]},
+      {t:"Decisions of consequence get made well without waiting on me.", a:["Everything meaningful routes through my desk.","People decide small things; the rest waits for me.","Some leaders decide well; others still check first.","Most consequential calls happen without me, and they hold up.","The team decides, tells me after, and I rarely flinch."]}
+    ]};
 
 const BOARD_DIM = { id:'boarddim', lever:null, name:'Board and governance', eng:{name:'Healthy Boards', href:'healthyboards.html'},
   read:'Whether the board is governing, or attending.',
   items:[
-    'Our board spends more time on the future than reviewing the past.',
-    'Board members know what is theirs to decide versus what is management\'s.',
-    'We can name the expertise gaps on our current board.',
-    'Board meetings would be worth attending even if attendance were optional.'
-  ]};
+      {t:"Our board spends more time on the future than reviewing the past.", a:["Meetings are reports read aloud; the future never comes up.","Mostly rearview; the future gets the last ten minutes.","Half reports, half real conversation, depending on the agenda.","Forward-looking questions drive most of the agenda.","The past takes minutes; the future takes the meeting."]},
+      {t:"Board members know what is theirs to decide versus what is management's.", a:["The board manages; the lines do not exist.","Lines exist on paper and get crossed in practice.","Mostly clear, with regular drift into management's lane.","Clear lanes, rare drift, gently corrected.","Governance and management each know their lane and stay in it."]},
+      {t:"We can name the expertise gaps on our current board.", a:["We have never mapped what the board has or lacks.","We sense gaps but could not list them.","We could name a gap or two if pressed.","Gaps are known and discussed when seats open.","Gaps are mapped and recruiting is aimed at them."]},
+      {t:"Board meetings would be worth attending even if attendance were optional.", a:["People attend from duty, and the energy says so.","Useful moments buried in routine.","Worth it about half the time.","Usually substantive; people leave with something.","Members protect the date; the meetings earn it."]}
+    ]};
 
 const BANDS = {
   strong:   { label:'Strong',          cls:'band-strong',   color:'var(--slate)' },
@@ -449,8 +432,9 @@ function renderDims(){
     const block = document.createElement('div');
     block.className = 'dim-block reveal in';
     block.innerHTML = '<div class="dim-title">' + (d.lever ? d.lever : 'Your situation') + '</div><h3>' + d.name + '</h3>';
-    d.items.forEach((stmt, i) => {
+    d.items.forEach((item, i) => {
       const qid = d.id + '_' + i;
+      ITEM_ANCHORS[qid] = item.a;
       const row = document.createElement('div');
       row.className = 'q-row';
       row.dataset.qid = qid;
@@ -458,9 +442,16 @@ function renderDims(){
       for (let v = 1; v <= 5; v++) {
         const checked = answers[qid] === v ? ' checked' : '';
         const sel = answers[qid] === v ? ' class="sel"' : '';
-        radios += '<label' + sel + ' title="' + ANCHOR_TITLES[v-1] + '"><input type="radio" name="' + qid + '" value="' + v + '"' + checked + '>' + v + '</label>';
+        radios += '<label' + sel + ' title="' + v + ' \u2013 ' + item.a[v-1] + '"><input type="radio" name="' + qid + '" value="' + v + '"' + checked + '>' + v + '</label>';
       }
-      row.innerHTML = '<div class="stmt">' + stmt + '</div><div class="likert">' + radios + '</div>';
+      const mini = '<div class="scale-mini">' +
+        '<span><span class="k">1</span>' + item.a[0] + '</span>' +
+        '<span><span class="k">3</span>' + item.a[2] + '</span>' +
+        '<span><span class="k">5</span>' + item.a[4] + '</span></div>';
+      const echoTxt = answers[qid] ? (answers[qid] + ' \u2013 ' + item.a[answers[qid]-1]) : '';
+      row.innerHTML = '<div><div class="stmt">' + item.t + '</div>' + mini +
+        '<div class="echo"' + (echoTxt ? ' style="display:block"' : '') + '>' + echoTxt + '</div></div>' +
+        '<div class="likert">' + radios + '</div>';
       block.appendChild(row);
     });
     qc.appendChild(block);
@@ -489,7 +480,15 @@ document.addEventListener('change', e => {
   document.querySelectorAll('input[name=' + input.name + ']').forEach(r => r.closest('label').classList.remove('sel'));
   input.closest('label').classList.add('sel');
   if (input.closest('#prequal')) renderDims();
-  if (input.closest('.q-row')) input.closest('.q-row').classList.remove('missing');
+  if (input.closest('.q-row')) {
+    const row = input.closest('.q-row');
+    row.classList.remove('missing');
+    const e = row.querySelector('.echo');
+    if (e && ITEM_ANCHORS[row.dataset.qid]) {
+      e.textContent = input.value + ' \u2013 ' + ITEM_ANCHORS[row.dataset.qid][input.value - 1];
+      e.style.display = 'block';
+    }
+  }
 });
 renderDims();
 
