@@ -102,10 +102,13 @@
         <h3>The Great Days Journal</h3>
         <p>A quarterly journal on leadership systems: client stories, podcast conversations, and what we're seeing in the work. First issue January 2027.</p>
       </div>
-      <div class="nl-form">
-        <input type="email" placeholder="Your email">
-        <a href="#" class="btn btn-primary">Subscribe</a>
-      </div>
+      <form class="nl-form" name="journal-signup" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" id="journalForm">
+        <input type="hidden" name="form-name" value="journal-signup">
+        <p style="display:none"><label>Leave this empty<input name="bot-field"></label></p>
+        <input type="email" name="email" placeholder="Your email" required>
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+      </form>
+      <p id="journalThanks" style="display:none; margin-top:10px; font-size:15px; color:var(--navy);">You are on the list. The first issue arrives January 2027.</p>
     </div>
   </div>
 </section>
@@ -166,6 +169,30 @@
 <script>
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+const journalForm = document.getElementById('journalForm');
+if (journalForm) {
+  journalForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const fd = new FormData(journalForm);
+    const thanks = document.getElementById('journalThanks');
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(fd).toString()
+    }).then(function (res) {
+      if (!res.ok) throw new Error('Submission failed');
+      journalForm.style.display = 'none';
+      thanks.style.color = '';
+      thanks.textContent = 'You are on the list. The first issue arrives January 2027.';
+      thanks.style.display = 'block';
+    }).catch(function () {
+      thanks.style.color = 'var(--orange-deep)';
+      thanks.textContent = 'Something hiccuped. Please email info@greatdaysleadership.com and we will take it from there.';
+      thanks.style.display = 'block';
+    });
+  });
+}
 </script>
 </body>
 </html>
