@@ -115,6 +115,11 @@
 </head>
 <body>
 
+<form name="gdi-snapshot" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="gdi-snapshot">
+  <input name="bot-field"><input name="name"><input name="organization"><input name="email"><input name="profile"><input name="levers"><input name="dimensions"><input name="first-move"><textarea name="answers"></textarea>
+</form>
+
 <nav>
   <div class="wrap nav-inner">
     <a class="nav-logo" href="index.html"><img src="assets/gdl_horiz_color.svg" alt="Great Days Leadership"></a>
@@ -207,20 +212,20 @@
           <label><input type="radio" name="ownerled" value="no">No</label>
         </div>
       </div>
-      <div class="pq" data-pq="timing">
-        <label class="pq-label">Where are you with this kind of work?</label>
-        <div class="pq-opts">
-          <label><input type="radio" name="timing" value="active">Actively working on it</label>
-          <label><input type="radio" name="timing" value="exploring">Exploring options</label>
-          <label><input type="radio" name="timing" value="curious">Just curious</label>
-        </div>
-      </div>
       <div class="pq" data-pq="priorfirm">
         <label class="pq-label">Worked with an outside firm on leadership or organizational development?</label>
         <div class="pq-opts">
           <label><input type="radio" name="priorfirm" value="current">Currently</label>
           <label><input type="radio" name="priorfirm" value="past">In the past</label>
           <label><input type="radio" name="priorfirm" value="never">Never</label>
+        </div>
+      </div>
+      <div class="pq" data-pq="timing">
+        <label class="pq-label">Where are you with leadership or organizational health work?</label>
+        <div class="pq-opts">
+          <label><input type="radio" name="timing" value="active">Actively working on it</label>
+          <label><input type="radio" name="timing" value="exploring">Exploring options</label>
+          <label><input type="radio" name="timing" value="curious">Just curious</label>
         </div>
       </div>
     </div>
@@ -584,12 +589,24 @@ document.getElementById('g-submit').addEventListener('click', () => {
   document.getElementById('results').style.display = 'block';
   document.getElementById('results').scrollIntoView({ behavior:'smooth' });
 
-  // Mockup note: submission intentionally not wired (matches the rest of the preview site).
-  // Production: POST {answers, state, name, org, email} to the lead endpoint here.
-  // Production flow also sends a confirmation link to the work email and releases results
-  // only after that link is clicked; this mockup shows results immediately after the domain check.
-  console.log('GDI snapshot (mockup, not transmitted):', { state, answers, email,
-    name: document.getElementById('g-name').value.trim(), org: document.getElementById('g-org').value.trim() });
+  // Send the lead to Netlify Forms in the background. Results are already on
+  // screen at this point, so a network failure here must never interrupt the visitor.
+  const leadPayload = {
+    'form-name': 'gdi-snapshot',
+    name: document.getElementById('g-name').value.trim(),
+    organization: document.getElementById('g-org').value.trim(),
+    email: email,
+    profile: JSON.stringify(state),
+    levers: levers.map(lv => lv.name + ': ' + lv.band.label + ' (' + lv.avg.toFixed(2) + ')').join('; '),
+    dimensions: dims.map(d => d.name + ': ' + band(d.avg).label).join('; '),
+    'first-move': target.name + ' -> ' + target.eng.name,
+    answers: JSON.stringify(answers)
+  };
+  fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams(leadPayload).toString()
+  }).catch(function () {});
 });
 
 /* ---------- Reveal on scroll ---------- */
