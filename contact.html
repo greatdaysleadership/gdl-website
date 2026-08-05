@@ -52,19 +52,22 @@
 <!-- FORM + STEPS -->
 <section>
   <div class="wrap contact-grid">
-    <div class="cform reveal">
+    <form class="cform reveal" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" id="contactForm">
+      <input type="hidden" name="form-name" value="contact">
+      <p style="display:none"><label>Leave this empty<input name="bot-field"></label></p>
       <label>Name</label>
-      <input type="text" placeholder="Your name">
+      <input type="text" name="name" placeholder="Your name" required>
       <label>Organization</label>
-      <input type="text" placeholder="Organization name">
+      <input type="text" name="organization" placeholder="Organization name">
       <label>Role</label>
-      <input type="text" placeholder="Your role">
+      <input type="text" name="role" placeholder="Your role">
       <label>Email</label>
-      <input type="email" placeholder="you@organization.com">
+      <input type="email" name="email" placeholder="you@organization.com" required>
       <label>What season is your organization in?</label>
-      <textarea placeholder="A sentence or two is plenty. What prompted you to reach out?"></textarea>
-      <a href="#" class="btn btn-primary">Send</a>
-    </div>
+      <textarea name="message" placeholder="A sentence or two is plenty. What prompted you to reach out?" required></textarea>
+      <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+    <div id="contactThanks" class="contact-note" style="display:none"><strong>Thanks for reaching out.</strong> Your note is on its way to the team, and the senior team member who would lead your work will be the one who follows up.</div>
     <div class="reveal">
       <span class="eyebrow" style="display:block; margin-bottom:26px;">What happens next</span>
       <ul class="mini-steps">
@@ -141,6 +144,34 @@
 <script>
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  contactForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    let errorEl = contactForm.querySelector('.form-error');
+    if (errorEl) errorEl.remove();
+    const fd = new FormData(contactForm);
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(fd).toString()
+    }).then(function (res) {
+      if (!res.ok) throw new Error('Submission failed');
+      contactForm.style.display = 'none';
+      const thanks = document.getElementById('contactThanks');
+      thanks.style.display = 'block';
+      thanks.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }).catch(function () {
+      const p = document.createElement('p');
+      p.className = 'form-error';
+      p.style.color = 'var(--orange-deep)';
+      p.style.marginTop = '10px';
+      p.textContent = 'Something hiccuped. Please email info@greatdaysleadership.com and we will take it from there.';
+      contactForm.appendChild(p);
+    });
+  });
+}
 </script>
 </body>
 </html>
