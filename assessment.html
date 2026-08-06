@@ -251,7 +251,7 @@
   <div class="wrap gdi-step">
     <div class="gdi-step-label reveal">Step 3 of 3</div>
     <h2 class="reveal">Your Snapshot</h2>
-    <p class="stephint reveal">Tell us where to send the written version and we'll put your results on screen now.</p>
+    <p class="stephint reveal">Tell us where to send the written version and we'll get your results in front of you.</p>
     <div class="gate reveal" id="gate">
       <h3>See your Index Snapshot</h3>
       <p>Your three lever scores, the read behind each, and the first move the Snapshot points to. We deliver the written version to your work email, so a personal inbox won't work for this one.</p>
@@ -502,6 +502,7 @@ renderDims();
 document.getElementById('g-submit').addEventListener('click', () => {
   const err = document.getElementById('g-err');
   err.style.display = 'none';
+  err.style.color = '';
 
   // validate items
   const missing = [];
@@ -532,6 +533,42 @@ document.getElementById('g-submit').addEventListener('click', () => {
 
   const state = pqState();
   const answers = collectAnswers();
+  const contact = {
+    name: document.getElementById('g-name').value.trim(),
+    organization: document.getElementById('g-org').value.trim(),
+    email: email
+  };
+
+  // Verified email gate. When the sender is configured, results arrive by a
+  // magic link to the work email; if it is not (or the check fails), results
+  // show instantly, exactly as before. A network problem must never block a
+  // visitor from their results.
+  const gbtn = document.getElementById('g-submit');
+  gbtn.disabled = true;
+  fetch('/.netlify/functions/verify-start', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: contact.email, name: contact.name })
+  }).then(function (res) {
+    if (!res.ok) throw new Error('verify unavailable');
+    return res.json();
+  }).then(function (j) {
+    gbtn.disabled = false;
+    if (j && j.enabled && j.sent) {
+      try { localStorage.setItem('gdiSnapshotPending', JSON.stringify({ state: state, answers: answers, contact: contact, t: Date.now() })); } catch (e) {}
+      err.style.color = '#C9D6E0';
+      err.textContent = 'Check your inbox. We sent a link to ' + contact.email + ' that opens your results right here. It works for 24 hours.';
+      err.style.display = 'block';
+    } else {
+      showResults(state, answers, contact);
+    }
+  }).catch(function () {
+    gbtn.disabled = false;
+    showResults(state, answers, contact);
+  });
+});
+
+function showResults(state, answers, contact) {
   const dims = [...DIMS];
   if (state.founderMod) dims.push(FOUNDER_DIM);
   if (state.boardMod) dims.push(BOARD_DIM);
@@ -593,9 +630,9 @@ document.getElementById('g-submit').addEventListener('click', () => {
   // screen at this point, so a network failure here must never interrupt the visitor.
   const leadPayload = {
     'form-name': 'gdi-snapshot',
-    name: document.getElementById('g-name').value.trim(),
-    organization: document.getElementById('g-org').value.trim(),
-    email: email,
+    name: contact.name,
+    organization: contact.organization,
+    email: contact.email,
     profile: JSON.stringify(state),
     levers: levers.map(lv => lv.name + ': ' + lv.band.label + ' (' + lv.avg.toFixed(2) + ')').join('; '),
     dimensions: dims.map(d => d.name + ': ' + band(d.avg).label).join('; '),
@@ -607,7 +644,36 @@ document.getElementById('g-submit').addEventListener('click', () => {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams(leadPayload).toString()
   }).catch(function () {});
-});
+}
+
+// Magic-link return path: ?vt=TOKEN opens the saved results after the
+// serverless function confirms the link is genuine and unexpired.
+(function () {
+  const vt = new URLSearchParams(location.search).get('vt');
+  if (!vt) return;
+  const err = document.getElementById('g-err');
+  fetch('/.netlify/functions/verify-check?vt=' + encodeURIComponent(vt))
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      if (!j || !j.valid) throw new Error('invalid');
+      let saved = null;
+      try { saved = JSON.parse(localStorage.getItem('gdiSnapshotPending')); } catch (e) {}
+      if (saved && saved.answers && saved.state && saved.contact) {
+        showResults(saved.state, saved.answers, saved.contact);
+      } else {
+        err.style.color = '#C9D6E0';
+        err.textContent = 'Your email is verified. Open the link on the device where you completed the Snapshot to see your results.';
+        err.style.display = 'block';
+        document.getElementById('gate').scrollIntoView({ behavior: 'smooth' });
+      }
+    })
+    .catch(function () {
+      err.style.color = '#FFB27A';
+      err.textContent = 'That link has expired or is not valid. Complete the Snapshot again and we will send a fresh one.';
+      err.style.display = 'block';
+      document.getElementById('gate').scrollIntoView({ behavior: 'smooth' });
+    });
+})();
 
 /* ---------- Reveal on scroll ---------- */
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12 });
