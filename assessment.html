@@ -642,18 +642,26 @@ function showResults(state, answers, contact, opts) {
   // link, so a completed Snapshot is never lost. A network failure here must never
   // interrupt the visitor.
   if (opts.postLead === false) return;
+  // Values are sent as plain readable text rather than JSON. Netlify runs
+  // submissions through a spam filter, and raw JSON blobs in form fields read as
+  // machine output and get the whole submission classified as spam. The empty
+  // honeypot is included deliberately, as Netlify expects it on AJAX posts.
+  const readable = function (obj) {
+    return Object.keys(obj).map(function (k) { return k + ': ' + obj[k]; }).join('; ');
+  };
   const leadPayload = {
     'form-name': 'gdi-snapshot',
+    'bot-field': '',
     name: contact.name,
     organization: contact.organization,
     email: contact.email,
     phone: contact.phone || '',
-    profile: JSON.stringify(state),
+    profile: readable(state),
     levers: levers.map(lv => lv.name + ': ' + lv.band.label + ' (' + lv.avg.toFixed(2) + ')').join('; '),
     dimensions: dims.map(d => d.name + ': ' + band(d.avg).label).join('; '),
     'first-move': target.name + ' -> ' + target.eng.name,
     verified: opts.verified || 'not required',
-    answers: JSON.stringify(answers)
+    answers: readable(answers)
   };
   fetch('/', {
     method: 'POST',
