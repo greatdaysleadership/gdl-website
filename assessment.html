@@ -116,7 +116,7 @@
 
 <form name="gdi-snapshot" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
   <input type="hidden" name="form-name" value="gdi-snapshot">
-  <input name="bot-field"><input name="name"><input name="organization"><input name="email"><input name="profile"><input name="levers"><input name="dimensions"><input name="first-move"><input name="verified"><textarea name="answers"></textarea>
+  <input name="bot-field"><input name="name"><input name="organization"><input name="email"><input name="phone"><input name="profile"><input name="levers"><input name="dimensions"><input name="first-move"><input name="verified"><textarea name="answers"></textarea>
 </form>
 
 <nav>
@@ -258,6 +258,7 @@
         <input type="text" id="g-name" placeholder="Your name" autocomplete="name">
         <input type="text" id="g-org" placeholder="Organization" autocomplete="organization">
         <input type="email" id="g-email" class="full" placeholder="you@organization.com" autocomplete="email">
+        <input type="tel" id="g-phone" class="full" placeholder="Phone (optional, if you would rather we call)" autocomplete="tel">
       </div>
       <button class="btn btn-primary" id="g-submit">Show My Results</button>
       <div class="gerr" id="g-err"></div>
@@ -535,7 +536,8 @@ document.getElementById('g-submit').addEventListener('click', () => {
   const contact = {
     name: document.getElementById('g-name').value.trim(),
     organization: document.getElementById('g-org').value.trim(),
-    email: email
+    email: email,
+    phone: document.getElementById('g-phone').value.trim()
   };
 
   // Verified email gate. When the sender is configured, results arrive by a
@@ -645,6 +647,7 @@ function showResults(state, answers, contact, opts) {
     name: contact.name,
     organization: contact.organization,
     email: contact.email,
+    phone: contact.phone || '',
     profile: JSON.stringify(state),
     levers: levers.map(lv => lv.name + ': ' + lv.band.label + ' (' + lv.avg.toFixed(2) + ')').join('; '),
     dimensions: dims.map(d => d.name + ': ' + band(d.avg).label).join('; '),
