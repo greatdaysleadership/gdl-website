@@ -116,7 +116,7 @@
 
 <form name="gdi-snapshot" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
   <input type="hidden" name="form-name" value="gdi-snapshot">
-  <input name="bot-field"><input name="name"><input name="organization"><input name="email"><input name="profile"><input name="levers"><input name="dimensions"><input name="first-move"><textarea name="answers"></textarea>
+  <input name="bot-field"><input name="name"><input name="organization"><input name="email"><input name="profile"><input name="levers"><input name="dimensions"><input name="first-move"><input name="verified"><textarea name="answers"></textarea>
 </form>
 
 <nav>
@@ -555,19 +555,27 @@ document.getElementById('g-submit').addEventListener('click', () => {
     gbtn.disabled = false;
     if (j && j.enabled && j.sent) {
       try { localStorage.setItem('gdiSnapshotPending', JSON.stringify({ state: state, answers: answers, contact: contact, t: Date.now() })); } catch (e) {}
+      // Record the completed Snapshot now, before the visitor has verified. Without
+      // this, anyone who never opens the link is invisible to us.
+      showResults(state, answers, contact, { silent: true, verified: 'awaiting link' });
       err.style.color = '#C9D6E0';
       err.textContent = 'Check your inbox. We sent a link to ' + contact.email + ' that opens your results right here. It works for 24 hours.';
       err.style.display = 'block';
     } else {
-      showResults(state, answers, contact);
+      showResults(state, answers, contact, { verified: 'not required' });
     }
   }).catch(function () {
     gbtn.disabled = false;
-    showResults(state, answers, contact);
+    showResults(state, answers, contact, { verified: 'not required' });
   });
 });
 
-function showResults(state, answers, contact) {
+// opts.silent    - compute and record the lead without revealing results on screen
+// opts.postLead  - false suppresses the Netlify Forms post (used on the magic-link
+//                  return, where the lead was already captured at submit time)
+// opts.verified  - value recorded in the "verified" field
+function showResults(state, answers, contact, opts) {
+  opts = opts || {};
   const dims = [...DIMS];
   if (state.founderMod) dims.push(FOUNDER_DIM);
   if (state.boardMod) dims.push(BOARD_DIM);
@@ -622,11 +630,16 @@ function showResults(state, answers, contact) {
     '<div class="fm-eng"><a class="btn btn-ghost" href="' + target.eng.href + '">Explore ' + target.eng.name + '</a></div>';
 
   // reveal
-  document.getElementById('results').style.display = 'block';
-  document.getElementById('results').scrollIntoView({ behavior:'smooth' });
+  if (!opts.silent) {
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('results').scrollIntoView({ behavior:'smooth' });
+  }
 
-  // Send the lead to Netlify Forms in the background. Results are already on
-  // screen at this point, so a network failure here must never interrupt the visitor.
+  // Send the lead to Netlify Forms in the background. This fires the moment the
+  // Snapshot is completed, whether or not the visitor ever opens the verification
+  // link, so a completed Snapshot is never lost. A network failure here must never
+  // interrupt the visitor.
+  if (opts.postLead === false) return;
   const leadPayload = {
     'form-name': 'gdi-snapshot',
     name: contact.name,
@@ -636,6 +649,7 @@ function showResults(state, answers, contact) {
     levers: levers.map(lv => lv.name + ': ' + lv.band.label + ' (' + lv.avg.toFixed(2) + ')').join('; '),
     dimensions: dims.map(d => d.name + ': ' + band(d.avg).label).join('; '),
     'first-move': target.name + ' -> ' + target.eng.name,
+    verified: opts.verified || 'not required',
     answers: JSON.stringify(answers)
   };
   fetch('/', {
@@ -658,7 +672,8 @@ function showResults(state, answers, contact) {
       let saved = null;
       try { saved = JSON.parse(localStorage.getItem('gdiSnapshotPending')); } catch (e) {}
       if (saved && saved.answers && saved.state && saved.contact) {
-        showResults(saved.state, saved.answers, saved.contact);
+        // The lead was already recorded at submit time, so do not post a duplicate.
+        showResults(saved.state, saved.answers, saved.contact, { postLead: false });
       } else {
         err.style.color = '#C9D6E0';
         err.textContent = 'Your email is verified. Open the link on the device where you completed the Snapshot to see your results.';
