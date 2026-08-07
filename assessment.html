@@ -668,6 +668,15 @@ function showResults(state, answers, contact, opts) {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams(leadPayload).toString()
   }).catch(function () {});
+
+  // Second, independent delivery path. Netlify Forms can classify a submission as
+  // spam and notify nobody, which is exactly what happened in August 2026. This
+  // emails the team directly and cannot be intercepted by that filter.
+  fetch('/.netlify/functions/notify-lead', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(leadPayload)
+  }).catch(function () {});
 }
 
 // Magic-link return path: ?vt=TOKEN opens the saved results after the
