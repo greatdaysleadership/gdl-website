@@ -59,8 +59,13 @@ nav {
 .btn {
   display: inline-block; font-family: var(--sans); font-weight: 700; font-size: 14.5px;
   letter-spacing: 0.06em; padding: 15px 32px; border-radius: 2px;
-  transition: background .18s, color .18s, border-color .18s;
+  transition: background .18s, color .18s, border-color .18s, transform .06s ease-out;
+  cursor: pointer;
 }
+/* Press affordance. Small on purpose: it should register as a button
+   responding, not as the page moving. */
+.btn:active { transform: translateY(1px); }
+.btn[disabled], .btn.is-busy { opacity: .72; pointer-events: none; }
 .btn-primary { background: var(--orange); color: #fff; }
 .btn-primary:hover { background: var(--orange-deep); }
 .btn-ghost { border: 1px solid var(--slate-light); color: var(--navy); }
@@ -302,8 +307,30 @@ footer { background: var(--navy-deep); color: #A8BCCB; padding: 70px 0 50px; fon
 .contact-note strong { color: var(--navy); }
 
 /* ---------- Reveal on scroll ---------- */
-.reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
+/* Duration is deliberately short. A long fade means a visitor scrolling at
+   normal speed can land on a screen still sitting at opacity 0. */
+.reveal { opacity: 0; transform: translateY(12px); transition: opacity .28s ease-out, transform .28s ease-out; }
 .reveal.in { opacity: 1; transform: none; }
+
+/* ---------- Focus ---------- */
+/* Keyboard users get a ring in brand navy. Mouse users see nothing, which is
+   the reason for :focus-visible rather than :focus. */
+:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
+.on-dark :focus-visible, .hero :focus-visible, footer :focus-visible { outline-color: #fff; }
+
+/* ---------- Reduced motion ---------- */
+/* Honors the operating system setting. Content still appears, it just appears
+   without travel. Nothing on this site is decorative-only. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
