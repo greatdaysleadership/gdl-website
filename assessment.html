@@ -71,6 +71,21 @@
 .gate .btn { border: 0; cursor: pointer; }
 .gate .gerr { color: #FFB27A; font-size: 14px; margin-top: 14px; display: none; }
 
+/* ---------- Progress through the statements ---------- */
+.qprogress { position: sticky; top: 78px; z-index: 40; background: rgba(255,255,255,0.97); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); padding: 12px 0 11px; margin-bottom: 28px; display: flex; align-items: center; gap: 16px; }
+.qp-bar { flex: 1; height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.qp-fill { height: 100%; width: 0%; background: var(--orange); border-radius: 2px; transition: width .28s ease-out; }
+.qp-fill.done { background: var(--navy); }
+.qp-count { font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate); white-space: nowrap; }
+.qp-count.done { color: var(--navy); }
+.sr-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (max-width: 900px) {
+  .qp-count { font-size: 11.5px; letter-spacing: 0.06em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .qp-fill { transition: none; }
+}
+
 /* Results */
 #results { display: none; }
 .lever-scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-bottom: 26px; }
@@ -241,7 +256,12 @@
       <strong>How the scale works</strong>
       <p style="margin-top:8px;">Every statement shows what a 1, a 3, and a 5 look like for that specific question. A 2 means between the 1 and the 3; a 4 means between the 3 and the 5. For the exact meaning of any number, hover over it. On a phone, tap a number and its meaning appears under the statement so you can adjust if it does not match.</p>
     </div>
+    <div class="qprogress" id="qprogress" aria-hidden="true">
+      <div class="qp-bar"><div class="qp-fill" id="qpFill"></div></div>
+      <div class="qp-count" id="qpCount">0 of 20 answered</div>
+    </div>
     <div id="qcontainer"></div>
+    <p class="sr-live" id="qpLive" role="status" aria-live="polite"></p>
   </div>
 </section>
 
@@ -251,7 +271,7 @@
     <div class="gdi-step-label reveal">Step 3 of 3</div>
     <h2 class="reveal">Your Snapshot</h2>
     <p class="stephint reveal">Tell us where to send the written version and we'll get your results in front of you.</p>
-    <div class="gate reveal" id="gate">
+    <div class="gate" id="gate">
       <h3>See your Index Snapshot</h3>
       <p>Your three lever scores, the read behind each, and the first move the Snapshot points to. We deliver the written version to your work email, so a personal inbox won't work for this one.</p>
       <div class="gfields">
@@ -462,11 +482,31 @@ function renderDims(){
     });
     qc.appendChild(block);
   });
+  updateProgress();
 }
 function collectAnswers(){
   const out = {};
   document.querySelectorAll('#qcontainer input[type=radio]:checked').forEach(r => { out[r.name] = parseInt(r.value, 10); });
   return out;
+}
+
+/* ---------- Progress through the statements ----------
+   The statement count is not fixed: founder and board dimensions are added
+   from the prequal answers, so the total is recomputed on every render. */
+function updateProgress(){
+  const total = document.querySelectorAll('#qcontainer .q-row').length;
+  const done = Object.keys(collectAnswers()).length;
+  const fill = document.getElementById('qpFill');
+  const count = document.getElementById('qpCount');
+  const live = document.getElementById('qpLive');
+  if (!fill || !count) return;
+  const pct = total ? Math.round((done / total) * 100) : 0;
+  fill.style.width = pct + '%';
+  const complete = total > 0 && done === total;
+  fill.classList.toggle('done', complete);
+  count.classList.toggle('done', complete);
+  count.textContent = complete ? 'All ' + total + ' answered' : done + ' of ' + total + ' answered';
+  if (live) live.textContent = complete ? 'All statements answered. Your results are ready.' : done + ' of ' + total + ' statements answered.';
 }
 function pqState(){
   const get = n => { const el = document.querySelector('input[name=' + n + ']:checked'); return el ? el.value : null; };
@@ -494,6 +534,7 @@ document.addEventListener('change', e => {
       e.textContent = input.value + ' \u2013 ' + ITEM_ANCHORS[row.dataset.qid][input.value - 1];
       e.style.display = 'block';
     }
+    updateProgress();
   }
 });
 renderDims();
@@ -545,7 +586,15 @@ document.getElementById('g-submit').addEventListener('click', () => {
   // show instantly, exactly as before. A network problem must never block a
   // visitor from their results.
   const gbtn = document.getElementById('g-submit');
+  const gbtnLabel = gbtn.textContent;
   gbtn.disabled = true;
+  gbtn.classList.add('is-busy');
+  gbtn.textContent = 'Scoring your Snapshot…';
+  const restoreBtn = function () {
+    gbtn.disabled = false;
+    gbtn.classList.remove('is-busy');
+    gbtn.textContent = gbtnLabel;
+  };
   fetch('/.netlify/functions/verify-start', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -554,7 +603,7 @@ document.getElementById('g-submit').addEventListener('click', () => {
     if (!res.ok) throw new Error('verify unavailable');
     return res.json();
   }).then(function (j) {
-    gbtn.disabled = false;
+    restoreBtn();
     if (j && j.enabled && j.sent) {
       try { localStorage.setItem('gdiSnapshotPending', JSON.stringify({ state: state, answers: answers, contact: contact, t: Date.now() })); } catch (e) {}
       // Record the completed Snapshot now, before the visitor has verified. Without
@@ -567,7 +616,7 @@ document.getElementById('g-submit').addEventListener('click', () => {
       showResults(state, answers, contact, { verified: 'not required' });
     }
   }).catch(function () {
-    gbtn.disabled = false;
+    restoreBtn();
     showResults(state, answers, contact, { verified: 'not required' });
   });
 });
@@ -710,8 +759,21 @@ function showResults(state, answers, contact, opts) {
 })();
 
 /* ---------- Reveal on scroll ---------- */
-const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+/* Reveal on scroll. rootMargin starts the fade before the element is on
+   screen, so it has finished by the time the visitor sees it. If the API is
+   missing or throws, every reveal is shown outright rather than left at
+   opacity 0. */
+(function () {
+  var els = document.querySelectorAll('.reveal');
+  var showAll = function () { for (var i = 0; i < els.length; i++) els[i].classList.add('in'); };
+  if (!('IntersectionObserver' in window)) { showAll(); return; }
+  try {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0, rootMargin: '0px 0px 25% 0px' });
+    for (var i = 0; i < els.length; i++) io.observe(els[i]);
+  } catch (err) { showAll(); }
+})();
 </script>
 </body>
 </html>
