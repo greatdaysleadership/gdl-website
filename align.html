@@ -198,8 +198,21 @@
 </footer>
 
 <script>
-const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+/* Reveal on scroll. rootMargin starts the fade before the element is on
+   screen, so it has finished by the time the visitor sees it. If the API is
+   missing or throws, every reveal is shown outright rather than left at
+   opacity 0. */
+(function () {
+  var els = document.querySelectorAll('.reveal');
+  var showAll = function () { for (var i = 0; i < els.length; i++) els[i].classList.add('in'); };
+  if (!('IntersectionObserver' in window)) { showAll(); return; }
+  try {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0, rootMargin: '0px 0px 25% 0px' });
+    for (var i = 0; i < els.length; i++) io.observe(els[i]);
+  } catch (err) { showAll(); }
+})();
 </script>
 </body>
 </html>
