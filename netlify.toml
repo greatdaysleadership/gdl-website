@@ -1,3 +1,86 @@
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
+
+# Canonicalise the .html form of every page onto the extensionless URL that
+# Netlify already serves and that every canonical tag points at. force = true is
+# required: without it Netlify skips the rule because the .html file really exists.
+# Query strings are carried through, which matters for the Snapshot verify link.
+
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/about.html"
+  to = "/about"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/who-we-serve.html"
+  to = "/who-we-serve"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/thecore.html"
+  to = "/thecore"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/elevate.html"
+  to = "/elevate"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/align.html"
+  to = "/align"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/accelerate.html"
+  to = "/accelerate"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/navigate.html"
+  to = "/navigate"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/healthyboards.html"
+  to = "/healthyboards"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/the-core-book.html"
+  to = "/the-core-book"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assessment.html"
+  to = "/assessment"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/insights.html"
+  to = "/insights"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/contact.html"
+  to = "/contact"
+  status = 301
+  force = true
