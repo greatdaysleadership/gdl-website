@@ -33,7 +33,7 @@ exports.handler = async (event) => {
   const exp = Date.now() + 24 * 3600 * 1000;
   const payload = Buffer.from(JSON.stringify({ e: email, x: exp })).toString('base64url');
   const sig = crypto.createHmac('sha256', secret).update(payload).digest('base64url');
-  const link = 'https://greatdaysleadership.com/assessment.html?vt=' + payload + '.' + sig;
+  const link = 'https://greatdaysleadership.com/assessment?vt=' + payload + '.' + sig;
 
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
