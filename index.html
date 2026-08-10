@@ -485,5 +485,23 @@ function gdiFloatDismiss() {
   }, { passive: true });
 })();
 </script>
+
+<script>
+/* Smooth scroll for same-page anchor links only. Global CSS smooth was removed
+   because it also animated keyboard Home/End. Respects reduced motion. */
+(function () {
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a || a.getAttribute('href') === '#') return;
+    var t;
+    try { t = document.querySelector(a.getAttribute('href')); } catch (err) { return; }
+    if (!t) return;
+    e.preventDefault();
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+    if (history.pushState) history.pushState(null, '', a.getAttribute('href'));
+  });
+})();
+</script>
 </body>
 </html>

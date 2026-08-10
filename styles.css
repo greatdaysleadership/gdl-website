@@ -20,7 +20,8 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+/* Smooth scrolling is applied per anchor click in JS, not globally,
+   so keyboard Home/End and find-in-page stay instant. */
 body { font-family: var(--sans); color: var(--ink); background: #fff; font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
 
 img { max-width: 100%; display: block; }

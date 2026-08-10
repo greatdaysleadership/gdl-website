@@ -200,10 +200,7 @@
       <h2>Watch the Launch Video</h2>
     </div>
     <div class="video-frame reveal">
-      <!-- Video embed slot: replace the .vf-inner div below with the launch video iframe when ready. -->
-      <div class="vf-inner">
-        <p>Video coming to this space</p>
-      </div>
+      <iframe class="vf-inner" src="https://www.youtube-nocookie.com/embed/oVTOzrlgVtk" title="The Core launch video" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="width:100%; height:100%; border:0;"></iframe>
     </div>
   </div>
 </section>
@@ -401,6 +398,24 @@
     }, { threshold: 0, rootMargin: '0px 0px 25% 0px' });
     for (var i = 0; i < els.length; i++) io.observe(els[i]);
   } catch (err) { showAll(); }
+})();
+</script>
+
+<script>
+/* Smooth scroll for same-page anchor links only. Global CSS smooth was removed
+   because it also animated keyboard Home/End. Respects reduced motion. */
+(function () {
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a || a.getAttribute('href') === '#') return;
+    var t;
+    try { t = document.querySelector(a.getAttribute('href')); } catch (err) { return; }
+    if (!t) return;
+    e.preventDefault();
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+    if (history.pushState) history.pushState(null, '', a.getAttribute('href'));
+  });
 })();
 </script>
 </body>
