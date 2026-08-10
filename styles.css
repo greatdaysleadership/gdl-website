@@ -152,6 +152,17 @@ section { padding: 110px 0; }
 .quote-card .to { display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); border-bottom: 1px solid transparent; transition: border-color .15s, color .15s; }
 a.to:hover { color: #FFA24D; border-bottom-color: #FFA24D; }
 
+/* Sound Familiar on a light band (homepage position 2). The same .quotes markup
+   still runs on a navy band on the six engagement pages, so these overrides are
+   scoped to .quotes-light and must never be folded into the base rules. */
+.quotes-light .quote-card { background: #fff; border-color: var(--line); }
+.quotes-light .quote-card .q { color: var(--navy); }
+.quotes-light .quote-card .a { color: var(--grey); }
+.quotes-light .quote-card .to { color: var(--orange-deep); }
+.quotes-light a.to:hover { color: var(--orange); border-bottom-color: var(--orange); }
+.quotes-light .sf-bridge { border-top-color: var(--line); }
+.quotes-light .sf-bridge p { color: var(--navy); }
+
 /* ---------- Founder quote ---------- */
 .founder { display: grid; grid-template-columns: 220px 1fr; gap: 64px; align-items: center; }
 .founder img { width: 220px; height: 220px; object-fit: cover; border-radius: 50%; }
