@@ -708,7 +708,9 @@ function showResults(state, answers, contact, opts) {
   document.getElementById('r-sub').textContent =
     attnCount === 0
       ? 'A strong self-read across the board. The question the full Index answers: does your team see it the same way?'
-      : 'The Snapshot reads ' + dims.length + ' dimensions. ' + attnCount + ' of them ' + (attnCount === 1 ? 'is' : 'are') + ' carrying strain, and one points to your first move.';
+      : attnCount === dims.length
+        ? 'The Snapshot reads ' + dims.length + ' dimensions. All ' + dims.length + ' are carrying strain, and one points to your first move.'
+        : 'The Snapshot reads ' + dims.length + ' dimensions. ' + attnCount + ' of them ' + (attnCount === 1 ? 'is' : 'are') + ' carrying strain, and one points to your first move.';
 
   document.getElementById('r-firstmove').innerHTML =
     '<div class="fm-label">Your first move</div>' +
@@ -719,6 +721,9 @@ function showResults(state, answers, contact, opts) {
 
   // reveal
   if (!opts.silent) {
+    // The visitor's details are already captured, so the empty gate has no job
+    // left on this screen, and refilling it would double-post the lead.
+    document.getElementById('gate').style.display = 'none';
     document.getElementById('results').style.display = 'block';
     document.getElementById('results').scrollIntoView({ behavior:'smooth' });
   }
