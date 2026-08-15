@@ -78,8 +78,8 @@ nav {
 /* ---------- Sections ---------- */
 /* Rhythm tightened 8/15/26 (Ben): panels were fold-height, so nothing peeked
    above the fold and there was no cue to keep scrolling. Was 110px. */
-section { padding: 80px 0; }
-.section-head { max-width: 720px; margin-bottom: 44px; }
+section { padding: 64px 0; }
+.section-head { max-width: 720px; margin-bottom: 36px; }
 .section-head .eyebrow { display: block; margin-bottom: 18px; }
 .section-head h2 { margin-bottom: 20px; }
 
@@ -91,7 +91,7 @@ section { padding: 80px 0; }
 
 /* ---------- Hero ---------- */
 /* Was 130px 0 140px; tightened so the next panel peeks above the fold. */
-.hero { padding: 92px 0 80px; position: relative; }
+.hero { padding: 72px 0 64px; position: relative; }
 .hero .eyebrow { display: block; margin-bottom: 26px; }
 .hero h1 { margin-bottom: 28px; max-width: 780px; }
 .hero .lede { margin-bottom: 44px; }
@@ -100,15 +100,15 @@ section { padding: 80px 0; }
 /* Scroll cue: quiet invitation to keep going. A thin track with an orange
    drip that falls toward the next panel. Hidden under 900px, where the next
    panel already peeks; static line under reduced motion. */
-.scroll-cue { position: absolute; left: 50%; transform: translateX(-50%); bottom: 10px; display: flex; flex-direction: column; align-items: center; gap: 9px; }
+.scroll-cue { position: absolute; left: 50%; transform: translateX(-50%); bottom: 8px; display: flex; flex-direction: column; align-items: center; gap: 9px; }
 .scroll-cue .sc-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--slate-light); }
-.scroll-cue .sc-line { width: 1px; height: 36px; background: rgba(255,255,255,0.22); position: relative; overflow: hidden; }
+.scroll-cue .sc-line { width: 1px; height: 22px; background: rgba(255,255,255,0.22); position: relative; overflow: hidden; }
 .scroll-cue .sc-line::after { content: ''; position: absolute; left: 0; top: -45%; width: 1px; height: 45%; background: var(--orange); animation: sc-drop 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
 .scroll-cue:hover .sc-label { color: #fff; }
 @keyframes sc-drop { 0% { top: -45%; } 65%, 100% { top: 110%; } }
 
 /* ---------- Credibility band ---------- */
-.cred { padding: 72px 0; }
+.cred { padding: 60px 0; }
 .cred-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 70px; align-items: center; }
 .book-cover {
   max-width: 300px; width: 100%;
@@ -196,12 +196,12 @@ a.to:hover { color: #FFA24D; border-bottom-color: #FFA24D; }
 .commit p { color: var(--grey); font-size: 15px; }
 
 /* ---------- CTA band ---------- */
-.cta-band { text-align: center; padding: 88px 0; }
+.cta-band { text-align: center; padding: 68px 0; }
 .cta-band h2 { max-width: 760px; margin: 0 auto 22px; }
 .cta-band p { max-width: 560px; margin: 0 auto 44px; }
 
 /* ---------- Footer ---------- */
-footer { background: var(--navy-deep); color: #A8BCCB; padding: 70px 0 50px; font-size: 14.5px; }
+footer { background: var(--navy-deep); color: #A8BCCB; padding: 56px 0 44px; font-size: 14.5px; }
 .foot-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 50px; margin-bottom: 54px; }
 .foot-grid img { height: 40px; margin-bottom: 22px; }
 .foot-head { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #fff; margin-bottom: 18px; }
@@ -211,7 +211,7 @@ footer { background: var(--navy-deep); color: #A8BCCB; padding: 70px 0 50px; fon
 .foot-base { border-top: 1px solid rgba(255,255,255,0.12); padding-top: 28px; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-size: 13px; color: #7E93A4; }
 
 /* ---------- Subpage extras ---------- */
-.page-hero { padding: 84px 0 80px; }
+.page-hero { padding: 68px 0 64px; }
 .page-hero .crumb { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--slate-light); margin-bottom: 30px; }
 .page-hero .crumb a:hover { color: #fff; }
 .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; }
@@ -276,7 +276,7 @@ footer { background: var(--navy-deep); color: #A8BCCB; padding: 70px 0 50px; fon
 .expert p { color: var(--grey); font-size: 14.5px; }
 
 /* ---------- Book page ---------- */
-.book-hero { padding: 84px 0 56px; } /* shorter bottom: cream hero meets a cream section, no color cue at the seam */
+.book-hero { padding: 68px 0 48px; } /* shorter bottom: cream hero meets a cream section, no color cue at the seam */
 .book-hero-grid { display: grid; grid-template-columns: 340px 1fr; gap: 80px; align-items: center; }
 .book-hero-grid .book-cover { max-width: 340px; }
 .book-hero h1 { margin: 18px 0 12px; }
@@ -364,13 +364,13 @@ footer { background: var(--navy-deep); color: #A8BCCB; padding: 70px 0 50px; fon
 @media (max-width: 900px) {
   h1 { font-size: 42px; }
   h2 { font-size: 32px; }
-  section { padding: 56px 0; }
-  .section-head { margin-bottom: 34px; }
-  .hero { padding: 64px 0 56px; }
+  section { padding: 44px 0; }
+  .section-head { margin-bottom: 28px; }
+  .hero { padding: 52px 0 44px; }
   .scroll-cue { display: none; }
-  .cta-band { padding: 64px 0; }
-  .page-hero { padding: 60px 0 60px; }
-  .book-hero { padding: 60px 0; }
+  .cta-band { padding: 52px 0; }
+  .page-hero { padding: 48px 0 48px; }
+  .book-hero { padding: 48px 0 40px; }
   .wrap { padding: 0 24px; }
   .nav-burger { display: block; flex-shrink: 0; margin-left: 16px; }
   .nav-logo img { height: 34px; }
