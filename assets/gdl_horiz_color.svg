@@ -5,8 +5,8 @@
     <style>
       .gdl-navy { fill: #0F3C61; fill-rule: evenodd; }
       .gdl-navy-text { fill: #0F3C61; }
-      .gdl-cyan { fill: #5DAFC8; fill-rule: evenodd; }
-      .gdl-cyan-text { fill: #5DAFC8; }
+      .gdl-cyan { fill: #00A5D0; fill-rule: evenodd; }
+      .gdl-cyan-text { fill: #00A5D0; }
     </style>
   </defs>
   <g id="Layer_1-2" data-name="Layer_1">
