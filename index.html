@@ -80,7 +80,7 @@
 .gdi-banner .arrow { color: #fff; margin-left: 6px; }
 .gdi-banner:hover { background: var(--orange-deep); }
 @media (max-width: 900px) { .gdi-banner { font-size: 13.5px; padding: 12px 16px; } }
-.sf-bridge { margin-top: 54px; padding-top: 44px; border-top: 1px solid rgba(255,255,255,0.14); display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
+.sf-bridge { margin-top: 44px; padding-top: 36px; border-top: 1px solid rgba(255,255,255,0.14); display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
 .sf-bridge p { font-family: var(--serif); font-size: 22px; color: #fff; max-width: 560px; line-height: 1.45; }
 .gdi-float { position: fixed; right: 26px; bottom: 26px; z-index: 60; background: var(--navy); color: #fff; max-width: 340px; padding: 28px 30px 26px; box-shadow: 0 24px 60px rgba(10,44,72,0.35); opacity: 0; transform: translateY(16px); visibility: hidden; transition: opacity .4s ease, transform .4s ease, visibility .4s; }
 .gdi-float.show { opacity: 1; transform: none; visibility: visible; }
@@ -139,10 +139,14 @@
       <a href="assessment.html" class="btn btn-ghost">Take the Index Snapshot</a>
     </div>
   </div>
+  <a class="scroll-cue" href="#soundfamiliar" aria-label="Scroll to the next section">
+    <span class="sc-label">More</span>
+    <span class="sc-line" aria-hidden="true"></span>
+  </a>
 </header>
 
 <!-- SOUND FAMILIAR -->
-<section class="band-mist quotes-light">
+<section class="band-mist quotes-light" id="soundfamiliar">
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow">Which Conversation Are You In?</span>

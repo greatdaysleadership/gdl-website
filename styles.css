@@ -76,8 +76,10 @@ nav {
 .btn-nav { padding: 11px 24px; }
 
 /* ---------- Sections ---------- */
-section { padding: 110px 0; }
-.section-head { max-width: 720px; margin-bottom: 64px; }
+/* Rhythm tightened 8/15/26 (Ben): panels were fold-height, so nothing peeked
+   above the fold and there was no cue to keep scrolling. Was 110px. */
+section { padding: 80px 0; }
+.section-head { max-width: 720px; margin-bottom: 44px; }
 .section-head .eyebrow { display: block; margin-bottom: 18px; }
 .section-head h2 { margin-bottom: 20px; }
 
@@ -88,14 +90,25 @@ section { padding: 110px 0; }
 .rule { width: 56px; height: 2px; background: var(--orange); border: 0; margin: 26px 0; }
 
 /* ---------- Hero ---------- */
-.hero { padding: 130px 0 140px; }
+/* Was 130px 0 140px; tightened so the next panel peeks above the fold. */
+.hero { padding: 92px 0 80px; position: relative; }
 .hero .eyebrow { display: block; margin-bottom: 26px; }
 .hero h1 { margin-bottom: 28px; max-width: 780px; }
 .hero .lede { margin-bottom: 44px; }
 .hero-ctas { display: flex; gap: 18px; flex-wrap: wrap; }
 
+/* Scroll cue: quiet invitation to keep going. A thin track with an orange
+   drip that falls toward the next panel. Hidden under 900px, where the next
+   panel already peeks; static line under reduced motion. */
+.scroll-cue { position: absolute; left: 50%; transform: translateX(-50%); bottom: 10px; display: flex; flex-direction: column; align-items: center; gap: 9px; }
+.scroll-cue .sc-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--slate-light); }
+.scroll-cue .sc-line { width: 1px; height: 36px; background: rgba(255,255,255,0.22); position: relative; overflow: hidden; }
+.scroll-cue .sc-line::after { content: ''; position: absolute; left: 0; top: -45%; width: 1px; height: 45%; background: var(--orange); animation: sc-drop 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+.scroll-cue:hover .sc-label { color: #fff; }
+@keyframes sc-drop { 0% { top: -45%; } 65%, 100% { top: 110%; } }
+
 /* ---------- Credibility band ---------- */
-.cred { padding: 84px 0; }
+.cred { padding: 72px 0; }
 .cred-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 70px; align-items: center; }
 .book-cover {
   max-width: 300px; width: 100%;
@@ -109,7 +122,7 @@ section { padding: 110px 0; }
 .cred-copy .cred-links { margin-top: 30px; display: flex; gap: 16px; flex-wrap: wrap; }
 
 /* ---------- Method ---------- */
-.method-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; margin-bottom: 70px; }
+.method-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; margin-bottom: 52px; }
 .method-card { border-top: 2px solid var(--line); padding-top: 30px; position: relative; }
 .method-card .num {
   font-family: var(--serif); font-size: 74px; line-height: 1; color: var(--sand);
@@ -126,7 +139,7 @@ section { padding: 110px 0; }
 .index-callout .ic-copy p { color: #C9D6E0; font-size: 16px; max-width: 560px; }
 
 /* ---------- Portfolio ---------- */
-.tier-label { font-size: 12.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--slate); margin: 54px 0 22px; }
+.tier-label { font-size: 12.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--slate); margin: 42px 0 22px; }
 .tier-label:first-of-type { margin-top: 0; }
 .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; }
 .cards-3 { grid-template-columns: repeat(3, 1fr); }
@@ -172,7 +185,7 @@ a.to:hover { color: #FFA24D; border-bottom-color: #FFA24D; }
 .founder .attr strong { color: var(--navy); display: block; font-size: 16.5px; margin-bottom: 3px; }
 
 /* ---------- Steps / commitments ---------- */
-.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; margin-bottom: 80px; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; margin-bottom: 56px; }
 .step { border-top: 2px solid var(--line); padding-top: 28px; }
 .step .num-sm { font-family: var(--serif); font-size: 40px; color: var(--orange); line-height: 1; margin-bottom: 14px; }
 .step h3 { margin-bottom: 10px; }
@@ -183,7 +196,7 @@ a.to:hover { color: #FFA24D; border-bottom-color: #FFA24D; }
 .commit p { color: var(--grey); font-size: 15px; }
 
 /* ---------- CTA band ---------- */
-.cta-band { text-align: center; padding: 120px 0; }
+.cta-band { text-align: center; padding: 88px 0; }
 .cta-band h2 { max-width: 760px; margin: 0 auto 22px; }
 .cta-band p { max-width: 560px; margin: 0 auto 44px; }
 
@@ -198,7 +211,7 @@ footer { background: var(--navy-deep); color: #A8BCCB; padding: 70px 0 50px; fon
 .foot-base { border-top: 1px solid rgba(255,255,255,0.12); padding-top: 28px; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-size: 13px; color: #7E93A4; }
 
 /* ---------- Subpage extras ---------- */
-.page-hero { padding: 110px 0 120px; }
+.page-hero { padding: 84px 0 80px; }
 .page-hero .crumb { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--slate-light); margin-bottom: 30px; }
 .page-hero .crumb a:hover { color: #fff; }
 .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; }
@@ -260,7 +273,7 @@ footer { background: var(--navy-deep); color: #A8BCCB; padding: 70px 0 50px; fon
 .expert p { color: var(--grey); font-size: 14.5px; }
 
 /* ---------- Book page ---------- */
-.book-hero { padding: 110px 0; }
+.book-hero { padding: 84px 0; }
 .book-hero-grid { display: grid; grid-template-columns: 340px 1fr; gap: 80px; align-items: center; }
 .book-hero-grid .book-cover { max-width: 340px; }
 .book-hero h1 { margin: 18px 0 12px; }
@@ -295,7 +308,7 @@ footer { background: var(--navy-deep); color: #A8BCCB; padding: 70px 0 50px; fon
 .insight .kind { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange-deep); margin: 24px 28px 8px; }
 .insight h3 { font-size: 19px; margin: 0 28px 10px; }
 .insight p { color: var(--grey); font-size: 14.5px; margin: 0 28px; }
-.newsletter { background: var(--mist); padding: 52px 56px; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; margin-top: 70px; }
+.newsletter { background: var(--mist); padding: 52px 56px; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; margin-top: 52px; }
 .newsletter h3 { font-size: 24px; }
 .newsletter p { color: var(--grey); font-size: 15px; margin-top: 6px; }
 .newsletter .nl-form { display: flex; gap: 12px; }
@@ -348,7 +361,13 @@ footer { background: var(--navy-deep); color: #A8BCCB; padding: 70px 0 50px; fon
 @media (max-width: 900px) {
   h1 { font-size: 42px; }
   h2 { font-size: 32px; }
-  section { padding: 76px 0; }
+  section { padding: 56px 0; }
+  .section-head { margin-bottom: 34px; }
+  .hero { padding: 64px 0 56px; }
+  .scroll-cue { display: none; }
+  .cta-band { padding: 64px 0; }
+  .page-hero { padding: 60px 0 60px; }
+  .book-hero { padding: 60px 0; }
   .wrap { padding: 0 24px; }
   .nav-burger { display: block; flex-shrink: 0; margin-left: 16px; }
   .nav-logo img { height: 34px; }
