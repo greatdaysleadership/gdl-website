@@ -219,7 +219,10 @@ footer { background: var(--navy-deep); color: #A8BCCB; padding: 70px 0 50px; fon
 .stat .big { font-family: var(--serif); font-size: 64px; line-height: 1; color: var(--navy); margin-bottom: 12px; }
 .stat .big span { font-size: 22px; color: var(--grey-soft); margin-left: 6px; font-family: var(--sans); }
 .stat p { color: var(--grey); font-size: 16px; }
-.levers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin: 60px 0; }
+/* Bottom margin removed 8/15: .levers is the last element in its section on
+   all six engagement pages, so it stacked with section+cta-band padding into
+   a 228px false-floor seam. */
+.levers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin: 48px 0 0; }
 .lever-card { background: #fff; border: 1px solid var(--line); padding: 34px 36px; text-align: center; }
 .lever-card .lv { font-size: 13px; font-weight: 700; letter-spacing: 0.22em; color: var(--navy); margin-bottom: 12px; }
 .lever-card p { color: var(--grey); font-size: 15.5px; }
@@ -273,7 +276,7 @@ footer { background: var(--navy-deep); color: #A8BCCB; padding: 70px 0 50px; fon
 .expert p { color: var(--grey); font-size: 14.5px; }
 
 /* ---------- Book page ---------- */
-.book-hero { padding: 84px 0; }
+.book-hero { padding: 84px 0 56px; } /* shorter bottom: cream hero meets a cream section, no color cue at the seam */
 .book-hero-grid { display: grid; grid-template-columns: 340px 1fr; gap: 80px; align-items: center; }
 .book-hero-grid .book-cover { max-width: 340px; }
 .book-hero h1 { margin: 18px 0 12px; }
@@ -385,6 +388,16 @@ footer { background: var(--navy-deep); color: #A8BCCB; padding: 70px 0 50px; fon
   nav.open .btn-nav { display: inline-block; margin-top: 14px; padding: 13px 26px; }
   .cred-grid, .founder, .phase { grid-template-columns: 1fr; gap: 40px; }
   .method-grid, .steps, .commits, .stat-row, .levers { grid-template-columns: 1fr; }
+  /* Card walls: single-column stacks run 2-5 viewports tall on phones, so
+     grid gaps and card padding compress below 900px. Desktop is untouched. */
+  .cards, .cards-3, .quotes, .team-grid, .experts-grid, .aud-grid, .insight-grid, .ba-grid { gap: 16px; }
+  .card { padding: 30px 26px 28px; }
+  .cards-3 .card { padding: 28px 24px 26px; }
+  .quote-card { padding: 28px 26px; }
+  .person { padding: 30px 28px; }
+  .expert { padding: 28px 26px; }
+  .aud { padding: 34px 28px; }
+  .levers { margin: 40px 0 0; }
   .cards, .cards-3, .quotes, .ba-grid { grid-template-columns: 1fr; }
   .card.card-wide { grid-template-columns: 1fr; gap: 20px; }
   .foot-grid { grid-template-columns: 1fr; gap: 36px; }

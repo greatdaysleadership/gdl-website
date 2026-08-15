@@ -75,12 +75,13 @@
 .endorse-card .q::before { content: '\201C'; color: var(--orange); font-size: 30px; line-height: 0; position: relative; top: 6px; margin-right: 3px; }
 .endorse-card .name { font-weight: 700; color: var(--navy); font-size: 15px; }
 .endorse-card .title { color: var(--grey); font-size: 13px; margin-top: 3px; }
-.book-details-strip { text-align: center; font-size: 13px; color: var(--grey); padding: 34px 0; }
+.book-details-strip { background: var(--cream); text-align: center; font-size: 13px; color: var(--grey); padding: 0 20px 36px; }
 .bulk-note { color: var(--grey); font-size: 15px; margin-top: 26px; }
 .bulk-note a { text-decoration: underline; }
 @media (max-width: 900px) {
   .retailer-grid { grid-template-columns: repeat(2, 1fr); }
-  .endorse-grid { grid-template-columns: 1fr; }
+  .endorse-grid { grid-template-columns: 1fr; gap: 16px; }
+  .endorse-card { padding: 26px 24px 24px; }
 }
 </style>
 </head>
@@ -337,7 +338,7 @@
   </div>
 </section>
 
-<div class="wrap book-details-strip">Forefront Books &middot; Distributed by Simon &amp; Schuster &middot; 256 pages &middot; ISBN 9781637635582</div>
+<div class="book-details-strip">Forefront Books &middot; Distributed by Simon &amp; Schuster &middot; 256 pages &middot; ISBN 9781637635582</div>
 
 <footer>
   <div class="wrap">
