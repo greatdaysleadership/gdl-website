@@ -234,8 +234,8 @@ footer { background: var(--navy-deep); color: #A8BCCB; padding: 56px 0 44px; fon
 .phase li { padding-left: 26px; position: relative; margin-bottom: 20px; color: var(--grey); font-size: 16px; }
 .phase li::before { content: '\25AA'; color: var(--orange); position: absolute; left: 0; top: 1px; }
 .phase li strong { color: var(--navy); display: block; font-size: 17px; margin-bottom: 2px; }
-.ba-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; }
-.ba { background: #fff; border: 1px solid var(--line); padding: 36px 38px; }
+.ba-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.ba { background: #fff; border: 1px solid var(--line); padding: 34px 32px 30px; }
 .ba .lever-tag { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--slate); margin-bottom: 14px; }
 .ba h3 { margin-bottom: 20px; }
 .ba .today { font-size: 15px; color: var(--grey); padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px dashed var(--line); }
