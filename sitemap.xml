@@ -61,6 +61,21 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://greatdaysleadership.com/podcast</loc>
+    <lastmod>2026-08-17</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://greatdaysleadership.com/articles</loc>
+    <lastmod>2026-08-17</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://greatdaysleadership.com/news</loc>
+    <lastmod>2026-08-17</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://greatdaysleadership.com/contact</loc>
     <lastmod>2026-08-08</lastmod>
     <priority>0.7</priority>
