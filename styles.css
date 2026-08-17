@@ -311,6 +311,16 @@ footer { background: var(--navy-deep); color: #A8BCCB; padding: 56px 0 44px; fon
 .insight .kind { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange-deep); margin: 24px 28px 8px; }
 .insight h3 { font-size: 19px; margin: 0 28px 10px; }
 .insight p { color: var(--grey); font-size: 14.5px; margin: 0 28px; }
+/* Text-only feed card (News). Scoped to .insight-text so the image-led
+.insight cards on Articles and Resources are untouched; editing the shared
+selector is the highest-regression change in the register (D-25). Card anatomy
+is 2.2 minus the thumb: orange accent rule, tracked eyebrow, serif head, body. */
+.insight-text { padding: 36px 32px 32px; }
+.insight-text .accent-mark { width: 40px; height: 2px; background: var(--orange); margin-bottom: 20px; }
+.insight-text .kind { margin: 0 0 10px; }
+.insight-text h3 { margin: 0 0 12px; }
+.insight-text p { margin: 0; }
+
 .newsletter { background: var(--mist); padding: 52px 56px; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; margin-top: 52px; }
 .newsletter h3 { font-size: 24px; }
 .newsletter p { color: var(--grey); font-size: 15px; margin-top: 6px; }
