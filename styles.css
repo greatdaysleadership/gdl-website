@@ -295,6 +295,18 @@ footer { background: var(--navy-deep); color: #A8BCCB; padding: 70px 0 50px; fon
 .insight .kind { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange-deep); margin: 24px 28px 8px; }
 .insight h3 { font-size: 19px; margin: 0 28px 10px; }
 .insight p { color: var(--grey); font-size: 14.5px; margin: 0 28px; }
+/* Text-only feed card (News, Resources). Scoped to .insight-text so the
+image-led .insight cards on Articles are untouched. Card anatomy is 2.2 minus
+the thumb: orange accent rule, tracked eyebrow, serif head, body, link. The
+padding replaces the base card's per-child 28px side margins, so all five
+children share one left edge. */
+.insight-text { padding: 36px 32px 32px; }
+.insight-text .accent-mark { width: 40px; height: 2px; background: var(--orange); margin-bottom: 20px; }
+.insight-text .kind { margin: 0 0 10px; }
+.insight-text h3 { margin: 0 0 12px; }
+.insight-text p { margin: 0; }
+.insight-text .go { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange-deep); display: inline-block; margin: 18px 0 0; }
+
 .newsletter { background: var(--mist); padding: 52px 56px; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; margin-top: 70px; }
 .newsletter h3 { font-size: 24px; }
 .newsletter p { color: var(--grey); font-size: 15px; margin-top: 6px; }
