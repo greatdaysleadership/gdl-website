@@ -84,3 +84,18 @@
   to = "/contact"
   status = 301
   force = true
+
+# Vanity alias for the printed Snapshot QR code. The Overview brochure's QR
+# encodes /snapshot, but the page itself lives at /assessment. 302 rather than
+# 301 so this stays reversible if /snapshot later becomes the page's real URL;
+# a cached 301 would be hard to undo on already-printed collateral.
+
+[[redirects]]
+  from = "/snapshot"
+  to = "/assessment"
+  status = 302
+
+[[redirects]]
+  from = "/snapshot/*"
+  to = "/assessment"
+  status = 302
