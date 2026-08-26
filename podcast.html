@@ -17,14 +17,14 @@
 <meta property="og:title" content="Bad Days Leadership Podcast | Dr. Matt Paden">
 <meta property="og:description" content="The leadership podcast about the days that do not make the highlight reel. Real leaders on real mistakes, hosted by Dr. Matt Paden of Great Days Leadership.">
 <meta property="og:url" content="https://greatdaysleadership.com/podcast">
-<meta property="og:image" content="https://greatdaysleadership.com/assets/og-default.jpg">
+<meta property="og:image" content="https://greatdaysleadership.com/assets/bdl_podcast_share_1200x675.jpg">
 <meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="og:image:height" content="675">
 <meta property="og:image:alt" content="Bad Days Leadership Podcast, hosted by Dr. Matt Paden of Great Days Leadership.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Bad Days Leadership Podcast | Dr. Matt Paden">
 <meta name="twitter:description" content="The leadership podcast about the days that do not make the highlight reel. Real leaders on real mistakes, hosted by Dr. Matt Paden of Great Days Leadership.">
-<meta name="twitter:image" content="https://greatdaysleadership.com/assets/og-default.jpg">
+<meta name="twitter:image" content="https://greatdaysleadership.com/assets/bdl_podcast_share_1200x675.jpg">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -62,6 +62,24 @@
 .theme-list li::before { content: '\25AA'; color: var(--orange); position: absolute; left: 0; top: 1px; }
 .subscribe-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 30px; }
 .player-wrap { background: var(--mist); padding: 40px; border: 1px solid var(--line); }
+/* Podcast hero. The show art carries the title, so the hero is sized as cover
+   art rather than a full-bleed band. Keeping it short lets the next section
+   break the fold on laptop screens, which is what invites the scroll. */
+.pod-hero { padding: 48px 0 58px; position: relative; }
+.pod-art { display: block; width: 100%; max-width: 760px; height: auto; margin: 0 auto;
+  border-radius: 2px; box-shadow: 0 18px 44px rgba(0,0,0,0.30); }
+.pod-hero .lede { max-width: 600px; margin: 26px auto 0; text-align: center; }
+.pod-scroll { position: absolute; left: 0; right: 0; bottom: 14px; text-align: center; line-height: 0; }
+.pod-scroll a { display: inline-block; padding: 6px 10px; color: var(--slate-light); }
+.pod-scroll a:hover { color: #fff; }
+.pod-scroll svg { animation: podNudge 2.6s ease-in-out infinite; }
+@keyframes podNudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+.pod-intro { padding: 64px 0 0; }
+@media (max-width: 900px) {
+  .pod-hero { padding: 34px 0 46px; }
+  .pod-hero .lede { margin-top: 20px; }
+  .pod-intro { padding-top: 56px; }
+}
 </style>
 </head>
 <body>
@@ -100,16 +118,21 @@
 </nav>
 
 <!-- HERO -->
-<header class="page-hero band-navy on-dark" style="padding:70px 0 80px;">
+<header class="page-hero pod-hero band-navy on-dark">
   <div class="wrap">
     <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">Bad Days Leadership Podcast</h1>
-    <img src="assets/bdl_podcast_banner_1920.webp" alt="Bad Days Leadership Podcast, hosted by Dr. Matt Paden" width="1920" height="1080" fetchpriority="high" style="width:100%;height:auto;border-radius:2px;">
-    <p class="lede" style="margin-top:28px;">Leadership on the days nobody posts about.</p>
+    <img class="pod-art" src="assets/bdl_podcast_banner_1920.webp" alt="Bad Days Leadership Podcast, hosted by Dr. Matt Paden" width="1920" height="1080" fetchpriority="high">
+    <p class="lede">Leadership on the days nobody posts about.</p>
+  </div>
+  <div class="pod-scroll">
+    <a href="#latest" aria-label="Skip to the latest episode">
+      <svg width="26" height="15" viewBox="0 0 26 15" fill="none" aria-hidden="true"><path d="M2 2l11 11L24 2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
   </div>
 </header>
 
 <!-- INTRO -->
-<section style="padding-bottom:0;">
+<section class="pod-intro">
   <div class="wrap">
     <p style="max-width:760px;">Every leader has a story they still cringe about. The decision that blew up. The hire that cost them a year. The thing they said in a meeting that they would give anything to take back. Bad Days Leadership is the show where those stories get told out loud, so the rest of us can learn from them.</p>
   </div>
@@ -131,7 +154,7 @@
 </section>
 
 <!-- LATEST EPISODE -->
-<section class="band-mist">
+<section class="band-mist" id="latest">
   <div class="wrap">
     <div class="section-head reveal" style="margin-bottom:30px;">
       <span class="eyebrow">New Episode</span>
