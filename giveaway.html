@@ -28,20 +28,16 @@
 
 <!--
   ============================================================================
-  OPEN ITEMS. Copy is Rachel's, per her 2026-09-24 email. Two placeholders
-  are left, both inside [[ ]]:
+  Copy is Rachel's, per her 2026-09-24 email. No placeholders remain.
 
-    [[CONFERENCE NAME]]   2 times (hero eyebrow, fine print eligibility line)
+  Four places say the winner is announced "next week": the lede, the thanks
+  message, step 2, and the fine print. That is deliberate. The code is only in
+  front of people on the day of the talk, so the room reads it the day it is
+  true. If this page is ever reused outside that window, those four lines are
+  the ones to change.
 
-  Also set EVENT_TAG below (the hidden field) to the conference slug before
-  each event, so entries are attributable without a new URL.
-
-  DATED COPY, REPLACE IT WHEN THE WINNER IS NAMED. Four places say the winner
-  is announced "next week": the lede, the thanks message, step 2, and the fine
-  print. That reads correctly only while the drawing is still ahead. Once the
-  winner is announced, swap those to the announcement itself or take the page
-  down, or a visitor scanning the code in November reads a promise that has
-  already passed.
+  The hidden "event" field below tags entries by event. Set it per event so
+  entries stay attributable without ever changing the URL.
 
   The URL and the form never change, so the QR code in the deck stays valid
   through any rewrite of the copy above.
@@ -129,7 +125,7 @@
 
 <header class="page-hero band-navy on-dark">
   <div class="wrap">
-    <span class="eyebrow">[[CONFERENCE NAME]]</span>
+    <span class="eyebrow">Conference Giveaway</span>
     <h1 style="margin-top:22px;">Win an Elevate Pipeline Assessment.</h1>
     <p class="lede" style="margin-top:20px;">The pipeline assessment is the first step of an Elevate engagement. One entry per person, and one winner will be announced next week.</p>
   </div>
@@ -140,7 +136,7 @@
 
     <form class="cform reveal in" id="giveawayForm" name="giveaway" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="giveaway">
-      <input type="hidden" name="event" id="eventTag" value="EVENT_TAG">
+      <input type="hidden" name="event" id="eventTag" value="conference-talk">
       <p style="display:none"><label>Leave this empty<input name="bot-field"></label></p>
 
       <label for="gwName">Name</label>
@@ -254,7 +250,7 @@
       </div>
 
       <p class="gw-fine">
-        <strong>The details.</strong> Open to people who attend [[CONFERENCE NAME]] and work at an organization that fits the assessment. One entry per person. One winner is selected at random from qualifying entries and announced next week. No purchase is needed and nothing is owed if you win. We contact the winner at the email address entered here. Entering does not obligate you to work with us, and we do not sell or share what you give us. Great Days Leadership, LLC, Brentwood, TN.
+        <strong>The details.</strong> Open to people who attend the session where this code was shared and who work at an organization that fits the assessment. One entry per person. One winner is selected at random from qualifying entries and announced next week. No purchase is needed and nothing is owed if you win. We contact the winner at the email address entered here. Entering does not obligate you to work with us, and we do not sell or share what you give us. Great Days Leadership, LLC, Brentwood, TN.
       </p>
     </div>
 
