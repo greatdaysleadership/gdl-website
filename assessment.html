@@ -685,11 +685,12 @@ function showResults(state, answers, contact, opts) {
   document.getElementById('r-sub').textContent = r.summary;
 
   const fmName = target.name.charAt(0).toUpperCase() + target.name.slice(1);
+  const fmt = SNAP.firstMoveText(r, 'your', "it's");
   document.getElementById('r-firstmove').innerHTML =
     '<div class="fm-arrow" aria-hidden="true">&rarr;</div><div>' +
     '<div class="fm-label">Your first move</div>' +
     '<h3>' + fmName + '. ' + target.eng.name.replace(/ /g, '\u00a0') + '.</h3>' +
-    '<p>' + target.read + ' This came back as your lowest read, which usually means it\'s quietly taxing everything else. The engagement built for this moment is <strong>' + target.eng.name + '</strong>.</p>' +
+    '<p>' + target.read + ' ' + fmt.line + ' ' + fmt.lead + '<strong>' + target.eng.name + '</strong>.</p>' +
     '<div class="fm-eng"><a class="btn btn-primary" href="' + target.eng.href + '">Explore ' + target.eng.name + '</a></div></div>';
 
   // reveal
