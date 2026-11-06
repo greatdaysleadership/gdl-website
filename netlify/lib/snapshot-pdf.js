@@ -189,8 +189,9 @@ function drawSnapshotPdf(result, opts, tight) {
 
   // First move panel
   const t = result.target;
-  const fmBody = smart(t.read) + ' This came back as ' + (mode === 'team' ? 'the' : 'your') +
-    ' lowest read, which usually means it is quietly taxing everything else. The engagement built for this moment is ';
+  const core = require('../../assets/snapshot-core.js');
+  const fmt = core.firstMoveText(result, mode === 'team' ? 'the' : 'your', 'it is');
+  const fmBody = smart(t.read) + ' ' + fmt.line + ' ' + fmt.lead;
   const tx0 = M + 62, tw0 = W - 62 - 22;
   doc.font('sans').fontSize(9.2);
   const bodyH = doc.heightOfString(fmBody + t.eng.name + '.', { width: tw0, lineGap: 2 });
