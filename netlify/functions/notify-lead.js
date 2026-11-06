@@ -8,7 +8,13 @@
 //
 // The recipient is hardcoded, so this endpoint cannot be used to send mail to
 // anyone else. Fields are length-capped so an oversized post cannot be relayed.
+//
+// The team copy of the Snapshot PDF is attached when the page sends the raw
+// answers. It is scored here with the same code the page uses. If the PDF
+// fails for any reason, the lead email still goes out without it.
 const nodemailer = require('nodemailer');
+const core = require('../../assets/snapshot-core.js');
+const { buildSnapshotPdf, fileName } = require('../lib/snapshot-pdf');
 
 const TO = 'info@greatdaysleadership.com';
 const MAX = 4000;
@@ -64,6 +70,23 @@ exports.handler = async (event) => {
     'The same submission is also recorded in Netlify Forms under gdi-snapshot.'
   ];
 
+  let attachment = null;
+  try {
+    const snap = b.snapshot && typeof b.snapshot === 'object' ? b.snapshot : null;
+    const state = snap ? core.normalizeState(snap.state) : null;
+    const result = snap && snap.answers && typeof snap.answers === 'object' ? core.score(snap.answers, state) : null;
+    if (result) {
+      const date = new Date();
+      const contact = { name: name.slice(0, 100), organization: org.slice(0, 120), email, phone: phone.slice(0, 40) };
+      const pdf = await buildSnapshotPdf(result, {
+        mode: 'team', contact, state, date, verified: clean(b.verified).trim().slice(0, 40) || 'unknown'
+      });
+      attachment = { filename: fileName(contact, date), content: pdf.buffer, contentType: 'application/pdf' };
+    }
+  } catch (e) {
+    attachment = null;
+  }
+
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -77,7 +100,8 @@ exports.handler = async (event) => {
       to: TO,
       replyTo: email,
       subject: 'Snapshot completed: ' + (name || email) + (org ? ' (' + org + ')' : ''),
-      text: lines.join('\n')
+      text: lines.join('\n'),
+      attachments: attachment ? [attachment] : []
     });
   } catch (e) {
     return { statusCode: 200, headers, body: JSON.stringify({ sent: false, reason: 'send-failed' }) };
