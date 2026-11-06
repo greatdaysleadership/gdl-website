@@ -123,32 +123,41 @@
   .qp-fill { transition: none; }
 }
 
-/* Results */
+/* Results: same layout as the Snapshot PDF */
 #results { display: none; }
-.lever-scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-bottom: 26px; }
-.lever-score { background: #fff; border: 1px solid var(--line); padding: 32px 34px; }
-.lever-score .lv-name { font-size: 12.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--slate); margin-bottom: 14px; }
-.band-chip { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 6px 14px; border-radius: 2px; color: #fff; }
-.band-strong { background: var(--slate); }
+.r-legend { font-size: 14px; font-style: italic; color: var(--grey); margin: -14px 0 22px; }
+.lever-scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-bottom: 30px; }
+.lever-score { background: #fff; border: 1px solid var(--line); padding: 26px 26px 22px; display: flex; flex-direction: column; }
+.lv-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.lv-num { font-family: var(--serif); font-size: 46px; line-height: 1; color: var(--navy); }
+.lever-score .lv-name { font-size: 12.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--navy); margin: 18px 0 8px; }
+.lever-score .lv-read { font-size: 15px; line-height: 1.55; color: var(--grey); flex: 1; }
+.band-chip { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 12px; border-radius: 2px; color: #fff; white-space: nowrap; text-align: center; }
+.band-strong { background: var(--navy); }
 .band-strained { background: var(--orange); }
 .band-attn { background: var(--orange-deep); }
-.scorebar { height: 6px; background: var(--mist); margin-top: 18px; position: relative; }
+.scorebar { height: 8px; background: var(--mist); margin-top: 22px; position: relative; }
 .scorebar .fill { position: absolute; left: 0; top: 0; bottom: 0; }
-.lever-score .lv-read { font-size: 14.5px; color: var(--grey); margin-top: 16px; }
+.sb-ticks { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--grey-soft); margin-top: 5px; }
 
-.dim-results { background: #fff; border: 1px solid var(--line); margin-bottom: 26px; }
-.dim-r { display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; padding: 20px 30px; border-top: 1px solid var(--line); }
-.dim-r:first-child { border-top: 0; }
-.dim-r .dr-name { font-size: 16px; font-weight: 700; color: var(--navy); }
-.dim-r .dr-lever { font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey-soft); margin-top: 2px; }
+.dim-results { margin-bottom: 30px; }
+.dims-head { padding: 0 0 12px; border-bottom: 1px solid var(--line); }
+.dh-label { font-size: 12.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--navy); }
+.dim-r { display: grid; grid-template-columns: 1fr auto 168px; gap: 22px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.dim-r .dr-name { font-size: 17px; color: var(--ink); }
+.dim-r .dr-lever { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey-soft); margin-top: 2px; }
+.dim-r .dr-score { font-size: 17px; color: var(--grey); font-variant-numeric: tabular-nums; }
+.dim-r .band-chip { width: 100%; }
 
-.firstmove { background: var(--cream); padding: 44px 48px; margin-bottom: 26px; }
-.firstmove .fm-label { font-size: 12.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange-deep); margin-bottom: 14px; }
-.firstmove h3 { font-size: 24px; margin-bottom: 12px; }
-.firstmove p { color: var(--grey); font-size: 16px; max-width: 640px; margin-bottom: 8px; }
+.firstmove { background: var(--navy); color: #fff; padding: 40px 48px; margin-bottom: 30px; display: grid; grid-template-columns: 44px 1fr; gap: 24px; align-items: start; }
+.firstmove .fm-arrow { font-size: 34px; line-height: 1; color: var(--orange); padding-top: 26px; }
+.firstmove .fm-label { font-size: 12.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
+.firstmove h3 { font-size: 30px; color: #fff; margin-bottom: 12px; }
+.firstmove p { color: #C9D6E0; font-size: 16px; max-width: 680px; margin-bottom: 8px; }
+.firstmove p strong { color: #fff; }
 .firstmove .fm-eng { margin-top: 22px; }
 
-.gapnote { border-left: 2px solid var(--orange); padding: 6px 0 6px 24px; margin: 40px 0; }
+.gapnote { border-left: 3px solid var(--orange); padding: 6px 0 6px 24px; margin: 40px 0; }
 .gapnote p { font-family: var(--serif); font-size: 20px; line-height: 1.55; color: var(--navy); max-width: 700px; }
 
 @media (max-width: 900px) {
@@ -159,7 +168,12 @@
   .gate .gfields { grid-template-columns: 1fr; }
   .prequal { padding: 30px 26px; }
   .gate { padding: 34px 28px; }
-  .firstmove { padding: 32px 28px; }
+  .firstmove { padding: 30px 24px; grid-template-columns: 1fr; gap: 6px; }
+  .firstmove .fm-arrow { padding-top: 0; }
+  .firstmove h3 { font-size: 25px; }
+  .lv-num { font-size: 40px; }
+  .dim-r { grid-template-columns: 1fr auto; gap: 8px 14px; }
+  .dim-r .band-chip { grid-column: 1 / -1; width: auto; justify-self: start; }
 }
 
 </style>
@@ -337,6 +351,7 @@
       <h2 id="r-headline">Here's what one leader's view shows.</h2>
       <p class="lede" id="r-sub"></p>
     </div>
+    <p class="r-legend">Scores run 1 to 5. 4.25 and up is strong, 3.25 to 4.24 strained, under 3.25 needs attention.</p>
     <div class="lever-scores" id="r-levers"></div>
     <div class="dim-results" id="r-dims"></div>
     <div class="firstmove" id="r-firstmove"></div>
@@ -392,99 +407,68 @@
   </div>
 </footer>
 
+<script src="assets/snapshot-core.js"></script>
 <script>
 /* ---------- Data ---------- */
 
 const FREE_DOMAINS = ['gmail.com','googlemail.com','yahoo.com','ymail.com','hotmail.com','outlook.com','live.com','msn.com','icloud.com','me.com','mac.com','aol.com','proton.me','protonmail.com','pm.me','gmx.com','gmx.net','mail.com','zoho.com','yandex.com','comcast.net','att.net','verizon.net','sbcglobal.net','bellsouth.net','charter.net','cox.net','earthlink.net'];
 
 const ITEM_ANCHORS = {};
-const DIMS = [
-  { id:'direction', lever:'Clarity', name:'Direction and priorities', eng:{name:'Align', href:'align.html'},
-    read:'Whether the organization knows where it is going, and whether that direction actually shapes decisions.',
-    items:[
-      {t:"Everyone on our leadership team would give the same answer to \"what are our top three priorities this year.\"", a:["Ask five leaders, get five different lists.","A couple of shared themes, framed differently by each person.","Rough agreement on the big rocks, fuzzy past the first one or two.","The same short list from almost everyone, minor wording differences.","Same three priorities, same order, from anyone you ask."]},
-      {t:"In the past year, we said no to a real opportunity because it didn't fit our strategy.", a:["We chase whatever revenue shows up; no has never happened.","We hesitate on off-strategy work but usually find a reason to take it.","We have passed on small things; nothing that actually hurt to decline.","One real no this year, and strategy made the call.","Real opportunities declined without drama; the strategy decides for us."]},
-      {t:"People here can explain how their work connects to where the organization is headed.", a:["Direction lives in leadership's heads; people just do their jobs.","People know the slogan, not what it means for their work.","Some teams see the line; others are guessing.","Most people can draw the line from their week to the direction.","Anyone here can tell you why their work matters to where we are going."]}
-    ]},
-  { id:'change', lever:'Clarity', name:'Change readiness', eng:{name:'Navigate', href:'navigate.html'},
-    read:'How the organization moves through seasons of change: deliberately, or bracing for impact.',
-    items:[
-      {t:"When change is coming, our people hear it from leadership first, with the reasons why.", a:["Change arrives by surprise or through the rumor mill.","Announcements come late and light on the why.","We communicate the what; the why is inconsistent.","People usually hear it from us first, reasons included.","Leadership is always the first voice, and the why leads."]},
-      {t:"We adjust plans deliberately instead of reacting to whatever the week brings.", a:["The loudest fire sets the agenda every week.","We aim for a plan, but urgency usually wins.","Deliberate on the big things; reactive everywhere else.","Most changes are decided, not triggered.","Plans change on purpose, with a decision trail people can see."]},
-      {t:"Past transitions here have landed without losing people we wanted to keep.", a:["Every big change has cost us someone we regret losing.","Transitions shake people loose more often than we admit.","A mixed record; some clean landings, some painful exits.","Rare regrettable exits, and we understood why each happened.","Change here has not cost us people we wanted to keep."]},
-      {t:"We have a working point of view on what AI means for our organization, and our people have heard it from us.", a:["We have not addressed it; people are guessing or using it quietly.","Leaders trade opinions; nothing agreed, nothing shared.","Leadership has a rough stance; the team has not heard it.","A stated position exists and most people have heard it.","Clear point of view, shared with everyone, revisited as things change."]}
-    ]},
-  { id:'leaders', lever:'Competency', name:'How leaders grow people', eng:{name:'The Core', href:'thecore.html'},
-    read:'Whether leading here means developing people, or just keeping the work moving.',
-    items:[
-      {t:"Our managers develop people; they don't just direct work.", a:["Managers assign, check, and correct. That is the job here.","Development happens if an employee pushes for it.","A few managers grow people; most manage tasks.","Most managers coach as part of the weekly rhythm.","Developing people is what managing means here, and it shows."]},
-      {t:"Leaders here hold hard conversations within weeks, not quarters.", a:["Hard conversations get avoided until something breaks.","We circle problems for months before naming them.","Depends on the leader; some act, some wait.","Most issues get named within weeks, kindly and directly.","Hard conversations happen fast enough that issues stay small."]},
-      {t:"Our high performers could name their next step of growth here.", a:["Growth paths do not exist; people grow by leaving.","Next steps come up only when someone threatens to go.","Some high performers have a path; most have a hope.","Most high performers know their next step and believe it.","Every high performer has a named next step and movement toward it."]}
-    ]},
-  { id:'bench', lever:'Competency', name:'Leadership bench', eng:{name:'Elevate', href:'elevate.html'},
-    read:'Whether the next generation of leaders is being built on purpose, or promoted and left to figure it out.',
-    items:[
-      {t:"If a key leader left tomorrow, we know who steps in.", a:["A key departure would be a crisis; no names come to mind.","We would scramble, then probably hire from outside.","We have instincts about who steps up; nothing discussed or developed.","Successors identified for most seats, development underway.","Named, prepared successors for every key seat."]},
-      {t:"We promote for leadership ability, not tenure or technical skill alone.", a:["Promotion is a reward for output or years served.","Leadership ability gets discussed, then output decides anyway.","A mixed record; our best doer usually still wins.","Leadership ability usually decides, with occasional lapses.","We promote leaders, and pass on great doers who are not ready."]},
-      {t:"New managers get equipped for leading people before they're left to figure it out.", a:["Congratulations and a calendar full of meetings; that is the onboarding.","A book or a course, then sink or swim.","Some support if they ask; nothing built in.","Real preparation for most new managers, uneven follow-through.","Every new manager is equipped before the team feels the learning curve."]}
-    ]},
-  { id:'team', lever:'Chemistry', name:'Leadership team health', eng:{name:'Align', href:'align.html'},
-    read:'Whether the leadership team operates as one team, or as a collection of departments.',
-    items:[
-      {t:"Our leadership team debates hard issues in the room, not in hallways afterward.", a:["Meetings are polite; the real meeting happens afterward.","A few voices engage; the rest save it for the hallway.","We debate the safe topics; the hot ones wait.","Most hard issues get argued in the room to a decision.","The room is where disagreement lives; hallways are for coffee."]},
-      {t:"When two departments disagree, it gets resolved without the senior leader stepping in.", a:["Every cross-team conflict escalates to the top.","Peers try, then hand it up more often than not.","A coin flip: sometimes peers settle it, sometimes it climbs.","Most conflicts resolve peer to peer; escalation is rare.","Peers settle it and inform up; escalation is news."]},
-      {t:"Members of our leadership team hold each other accountable, peer to peer.", a:["Accountability flows one direction: down.","Peers vent about each other, rarely to each other.","Some peer accountability among a trusted few.","Most of the team calls things directly, most of the time.","Peers hold the standard so the leader rarely has to."]},
-      {t:"I trust every member of our leadership team to put the organization ahead of their own area.", a:["Turf wins; budgets and headcount prove it.","Team-first talk, department-first behavior.","Most act enterprise-first until it costs their area something.","Nearly everyone, nearly always, even at a cost.","Every member, even when their own area loses."]}
-    ]},
-  { id:'culture', lever:'Chemistry', name:'Culture and retention', eng:{name:'The Core', href:'thecore.html'},
-    read:'Whether the culture keeps the people you most want to keep.',
-    items:[
-      {t:"Our best people could tell you why they stay.", a:["Honestly, we are not sure why they stay, and it worries us.","They stay from inertia and relationships, not conviction.","Some could name it; others would pause too long.","Most would give a fast, specific answer.","Ask any of them; the answer is quick and it is the same story."]},
-      {t:"People here raise bad news early, without fear.", a:["Bad news surfaces late, softened, or through the grapevine.","People test the waters before saying anything real.","Some people speak up; others wait to see who asks.","Most problems get named early by whoever sees them.","Bad news travels fastest here, and messengers get thanked."]},
-      {t:"Last year's turnover was people we chose to lose, not people we couldn't keep.", a:["We lost people we badly wanted to keep.","More regrettable exits than we would like to admit.","A mix, roughly even, and some stung.","Mostly healthy turnover, with one or two exceptions.","The people we wanted stayed; the turnover was on purpose."]}
-    ]}
-];
 
-const FOUNDER_DIM = { id:'founder', lever:null, name:'Founder load', eng:{name:'Accelerate', href:'accelerate.html'},
-  read:'How much of the organization still runs through you.',
-  items:[
-      {t:"The organization could run for a month without me and not stumble.", a:["A week away and things pile up or stall.","Short absences work; anything longer gets shaky.","A month would pass, but decisions would queue for my return.","A month runs fine; only the biggest calls would wait.","A month away and most people would barely notice."]},
-      {t:"Decisions of consequence get made well without waiting on me.", a:["Everything meaningful routes through my desk.","People decide small things; the rest waits for me.","Some leaders decide well; others still check first.","Most consequential calls happen without me, and they hold up.","The team decides, tells me after, and I rarely flinch."]}
-    ]};
-
-const BOARD_DIM = { id:'boarddim', lever:null, name:'Board and governance', eng:{name:'Healthy Boards', href:'healthyboards.html'},
-  read:'Whether the board is governing, or attending.',
-  items:[
-      {t:"Our board spends more time on the future than reviewing the past.", a:["Meetings are reports read aloud; the future never comes up.","Mostly rearview; the future gets the last ten minutes.","Half reports, half real conversation, depending on the agenda.","Forward-looking questions drive most of the agenda.","The past takes minutes; the future takes the meeting."]},
-      {t:"Board members know what is theirs to decide versus what is management's.", a:["The board manages; the lines do not exist.","Lines exist on paper and get crossed in practice.","Mostly clear, with regular drift into management's lane.","Clear lanes, rare drift, gently corrected.","Governance and management each know their lane and stay in it."]},
-      {t:"We can name the expertise gaps on our current board.", a:["We have never mapped what the board has or lacks.","We sense gaps but could not list them.","We could name a gap or two if pressed.","Gaps are known and discussed when seats open.","Gaps are mapped and recruiting is aimed at them."]},
-      {t:"Board meetings would be worth attending even if attendance were optional.", a:["People attend from duty, and the energy says so.","Useful moments buried in routine.","Worth it about half the time.","Usually substantive; people leave with something.","Members protect the date; the meetings earn it."]}
-    ]};
-
-const BANDS = {
-  strong:   { label:'Strong',          cls:'band-strong',   color:'var(--slate)' },
-  strained: { label:'Strained',        cls:'band-strained', color:'var(--orange)' },
-  attn:     { label:'Needs attention', cls:'band-attn',     color:'var(--orange-deep)' }
+/* Dimension names, reads, engagements, lever reads, bands, and scoring live in
+   assets/snapshot-core.js, shared with the PDF the Snapshot email carries.
+   Only the statements and their anchor descriptions live here. */
+const SNAP = window.GDLSnapshot;
+const ITEMS = {
+  direction: [
+      {t:"Everyone on our leadership team would give the same answer to \"what are our top three priorities this year.\"", a:["Ask five leaders, get five different lists.", "A couple of shared themes, framed differently by each person.", "Rough agreement on the big rocks, fuzzy past the first one or two.", "The same short list from almost everyone, minor wording differences.", "Same three priorities, same order, from anyone you ask."]},
+      {t:"In the past year, we said no to a real opportunity because it didn't fit our strategy.", a:["We chase whatever revenue shows up; no has never happened.", "We hesitate on off-strategy work but usually find a reason to take it.", "We have passed on small things; nothing that actually hurt to decline.", "One real no this year, and strategy made the call.", "Real opportunities declined without drama; the strategy decides for us."]},
+      {t:"People here can explain how their work connects to where the organization is headed.", a:["Direction lives in leadership's heads; people just do their jobs.", "People know the slogan, not what it means for their work.", "Some teams see the line; others are guessing.", "Most people can draw the line from their week to the direction.", "Anyone here can tell you why their work matters to where we are going."]}
+    ],
+  change: [
+      {t:"When change is coming, our people hear it from leadership first, with the reasons why.", a:["Change arrives by surprise or through the rumor mill.", "Announcements come late and light on the why.", "We communicate the what; the why is inconsistent.", "People usually hear it from us first, reasons included.", "Leadership is always the first voice, and the why leads."]},
+      {t:"We adjust plans deliberately instead of reacting to whatever the week brings.", a:["The loudest fire sets the agenda every week.", "We aim for a plan, but urgency usually wins.", "Deliberate on the big things; reactive everywhere else.", "Most changes are decided, not triggered.", "Plans change on purpose, with a decision trail people can see."]},
+      {t:"Past transitions here have landed without losing people we wanted to keep.", a:["Every big change has cost us someone we regret losing.", "Transitions shake people loose more often than we admit.", "A mixed record; some clean landings, some painful exits.", "Rare regrettable exits, and we understood why each happened.", "Change here has not cost us people we wanted to keep."]},
+      {t:"We have a working point of view on what AI means for our organization, and our people have heard it from us.", a:["We have not addressed it; people are guessing or using it quietly.", "Leaders trade opinions; nothing agreed, nothing shared.", "Leadership has a rough stance; the team has not heard it.", "A stated position exists and most people have heard it.", "Clear point of view, shared with everyone, revisited as things change."]}
+    ],
+  leaders: [
+      {t:"Our managers develop people; they don't just direct work.", a:["Managers assign, check, and correct. That is the job here.", "Development happens if an employee pushes for it.", "A few managers grow people; most manage tasks.", "Most managers coach as part of the weekly rhythm.", "Developing people is what managing means here, and it shows."]},
+      {t:"Leaders here hold hard conversations within weeks, not quarters.", a:["Hard conversations get avoided until something breaks.", "We circle problems for months before naming them.", "Depends on the leader; some act, some wait.", "Most issues get named within weeks, kindly and directly.", "Hard conversations happen fast enough that issues stay small."]},
+      {t:"Our high performers could name their next step of growth here.", a:["Growth paths do not exist; people grow by leaving.", "Next steps come up only when someone threatens to go.", "Some high performers have a path; most have a hope.", "Most high performers know their next step and believe it.", "Every high performer has a named next step and movement toward it."]}
+    ],
+  bench: [
+      {t:"If a key leader left tomorrow, we know who steps in.", a:["A key departure would be a crisis; no names come to mind.", "We would scramble, then probably hire from outside.", "We have instincts about who steps up; nothing discussed or developed.", "Successors identified for most seats, development underway.", "Named, prepared successors for every key seat."]},
+      {t:"We promote for leadership ability, not tenure or technical skill alone.", a:["Promotion is a reward for output or years served.", "Leadership ability gets discussed, then output decides anyway.", "A mixed record; our best doer usually still wins.", "Leadership ability usually decides, with occasional lapses.", "We promote leaders, and pass on great doers who are not ready."]},
+      {t:"New managers get equipped for leading people before they're left to figure it out.", a:["Congratulations and a calendar full of meetings; that is the onboarding.", "A book or a course, then sink or swim.", "Some support if they ask; nothing built in.", "Real preparation for most new managers, uneven follow-through.", "Every new manager is equipped before the team feels the learning curve."]}
+    ],
+  team: [
+      {t:"Our leadership team debates hard issues in the room, not in hallways afterward.", a:["Meetings are polite; the real meeting happens afterward.", "A few voices engage; the rest save it for the hallway.", "We debate the safe topics; the hot ones wait.", "Most hard issues get argued in the room to a decision.", "The room is where disagreement lives; hallways are for coffee."]},
+      {t:"When two departments disagree, it gets resolved without the senior leader stepping in.", a:["Every cross-team conflict escalates to the top.", "Peers try, then hand it up more often than not.", "A coin flip: sometimes peers settle it, sometimes it climbs.", "Most conflicts resolve peer to peer; escalation is rare.", "Peers settle it and inform up; escalation is news."]},
+      {t:"Members of our leadership team hold each other accountable, peer to peer.", a:["Accountability flows one direction: down.", "Peers vent about each other, rarely to each other.", "Some peer accountability among a trusted few.", "Most of the team calls things directly, most of the time.", "Peers hold the standard so the leader rarely has to."]},
+      {t:"I trust every member of our leadership team to put the organization ahead of their own area.", a:["Turf wins; budgets and headcount prove it.", "Team-first talk, department-first behavior.", "Most act enterprise-first until it costs their area something.", "Nearly everyone, nearly always, even at a cost.", "Every member, even when their own area loses."]}
+    ],
+  culture: [
+      {t:"Our best people could tell you why they stay.", a:["Honestly, we are not sure why they stay, and it worries us.", "They stay from inertia and relationships, not conviction.", "Some could name it; others would pause too long.", "Most would give a fast, specific answer.", "Ask any of them; the answer is quick and it is the same story."]},
+      {t:"People here raise bad news early, without fear.", a:["Bad news surfaces late, softened, or through the grapevine.", "People test the waters before saying anything real.", "Some people speak up; others wait to see who asks.", "Most problems get named early by whoever sees them.", "Bad news travels fastest here, and messengers get thanked."]},
+      {t:"Last year's turnover was people we chose to lose, not people we couldn't keep.", a:["We lost people we badly wanted to keep.", "More regrettable exits than we would like to admit.", "A mix, roughly even, and some stung.", "Mostly healthy turnover, with one or two exceptions.", "The people we wanted stayed; the turnover was on purpose."]}
+    ],
+  founder: [
+      {t:"The organization could run for a month without me and not stumble.", a:["A week away and things pile up or stall.", "Short absences work; anything longer gets shaky.", "A month would pass, but decisions would queue for my return.", "A month runs fine; only the biggest calls would wait.", "A month away and most people would barely notice."]},
+      {t:"Decisions of consequence get made well without waiting on me.", a:["Everything meaningful routes through my desk.", "People decide small things; the rest waits for me.", "Some leaders decide well; others still check first.", "Most consequential calls happen without me, and they hold up.", "The team decides, tells me after, and I rarely flinch."]}
+    ],
+  boarddim: [
+      {t:"Our board spends more time on the future than reviewing the past.", a:["Meetings are reports read aloud; the future never comes up.", "Mostly rearview; the future gets the last ten minutes.", "Half reports, half real conversation, depending on the agenda.", "Forward-looking questions drive most of the agenda.", "The past takes minutes; the future takes the meeting."]},
+      {t:"Board members know what is theirs to decide versus what is management's.", a:["The board manages; the lines do not exist.", "Lines exist on paper and get crossed in practice.", "Mostly clear, with regular drift into management's lane.", "Clear lanes, rare drift, gently corrected.", "Governance and management each know their lane and stay in it."]},
+      {t:"We can name the expertise gaps on our current board.", a:["We have never mapped what the board has or lacks.", "We sense gaps but could not list them.", "We could name a gap or two if pressed.", "Gaps are known and discussed when seats open.", "Gaps are mapped and recruiting is aimed at them."]},
+      {t:"Board meetings would be worth attending even if attendance were optional.", a:["People attend from duty, and the energy says so.", "Useful moments buried in routine.", "Worth it about half the time.", "Usually substantive; people leave with something.", "Members protect the date; the meetings earn it."]}
+    ]
 };
-function band(avg){ return avg >= 4.25 ? BANDS.strong : (avg >= 3.25 ? BANDS.strained : BANDS.attn); }
-
-const LEVER_READS = {
-  Clarity: {
-    strong:'Direction is set and shaping decisions. Protect it as you grow.',
-    strained:'The direction exists, but it isn\'t governing the week-to-week yet.',
-    attn:'The organization is working hard without a shared answer to "toward what?"'
-  },
-  Competency: {
-    strong:'Leaders here grow people, and the bench shows it.',
-    strained:'Good leaders, uneven leadership. Development is happening by personality, not design.',
-    attn:'People are being managed, not led, and the bench is thin.'
-  },
-  Chemistry: {
-    strong:'The team is doing real work in the room together. That\'s rare, keep it.',
-    strained:'Polite is doing the work trust should be doing.',
-    attn:'The hard conversations are happening in hallways, and the organization can feel it.'
-  }
-};
+const withItems = m => Object.assign({}, m, { items: ITEMS[m.id] });
+const DIMS = SNAP.CORE_DIMS.map(withItems);
+const FOUNDER_DIM = withItems(SNAP.FOUNDER_DIM);
+const BOARD_DIM = withItems(SNAP.BOARD_DIM);
+const BANDS = SNAP.BANDS;
+const band = SNAP.band;
 
 /* ---------- Build questions ---------- */
 const qc = document.getElementById('qcontainer');
@@ -550,14 +534,12 @@ function updateProgress(){
   if (live) live.textContent = complete ? 'All statements answered. Your results are ready.' : done + ' of ' + total + ' statements answered.';
 }
 function pqState(){
-  const get = n => { const el = document.querySelector('input[name=' + n + ']:checked'); return el ? el.value : null; };
-  const role = get('role'), ownerled = get('ownerled'), boardYes = get('board');
-  return {
-    orgtype: get('orgtype'), role, headcount: get('headcount'),
-    timing: get('timing'), priorfirm: get('priorfirm'), ownerled,
-    founderMod: role === 'founder' || (ownerled === 'yes' && (role === 'ceo' || role === 'founder')),
-    boardMod: boardYes === 'yes' || role === 'board'
-  };
+  const raw = {};
+  ['orgtype', 'role', 'headcount', 'timing', 'priorfirm', 'ownerled', 'board'].forEach(n => {
+    const el = document.querySelector('input[name=' + n + ']:checked');
+    raw[n] = el ? el.value : null;
+  });
+  return SNAP.normalizeState(raw);
 }
 
 /* ---------- Selection styling + conditional re-render ---------- */
@@ -639,7 +621,7 @@ document.getElementById('g-submit').addEventListener('click', () => {
   fetch('/.netlify/functions/verify-start', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: contact.email, name: contact.name })
+    body: JSON.stringify({ email: contact.email, name: contact.name, organization: contact.organization, answers: answers, state: state })
   }).then(function (res) {
     if (!res.ok) throw new Error('verify unavailable');
     return res.json();
@@ -651,7 +633,9 @@ document.getElementById('g-submit').addEventListener('click', () => {
       // this, anyone who never opens the link is invisible to us.
       showResults(state, answers, contact, { silent: true, verified: 'awaiting link' });
       err.style.color = '#C9D6E0';
-      err.textContent = 'Check your inbox. We sent a link to ' + contact.email + ' that opens your results right here. It works for 24 hours.';
+      err.textContent = j.pdf
+        ? 'Check your inbox. We sent your Snapshot to ' + contact.email + ' as a PDF, with a link that opens your results right here. The link works for 24 hours.'
+        : 'Check your inbox. We sent a link to ' + contact.email + ' that opens your results right here. It works for 24 hours.';
       err.style.display = 'block';
     } else {
       showResults(state, answers, contact, { verified: 'not required' });
@@ -668,60 +652,45 @@ document.getElementById('g-submit').addEventListener('click', () => {
 // opts.verified  - value recorded in the "verified" field
 function showResults(state, answers, contact, opts) {
   opts = opts || {};
-  const dims = [...DIMS];
-  if (state.founderMod) dims.push(FOUNDER_DIM);
-  if (state.boardMod) dims.push(BOARD_DIM);
+  const r = SNAP.score(answers, state);
+  if (!r) return;
+  const levers = r.levers;
+  const target = r.target;
+  const NUM = ['zero','one','two','three','four','five','six','seven','eight','nine','ten'];
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-  // dimension averages
-  dims.forEach(d => {
-    const vals = d.items.map((_, i) => answers[d.id + '_' + i]);
-    d.avg = vals.reduce((a, b) => a + b, 0) / vals.length;
-  });
-
-  // lever averages (core dims only)
-  const levers = ['Clarity', 'Competency', 'Chemistry'].map(lv => {
-    const lds = dims.filter(d => d.lever === lv);
-    const avg = lds.reduce((a, d) => a + d.avg, 0) / lds.length;
-    return { name: lv, avg, band: band(avg) };
-  });
-
-  // render lever cards
-  document.getElementById('r-levers').innerHTML = levers.map(lv => {
-    const key = lv.band === BANDS.strong ? 'strong' : (lv.band === BANDS.strained ? 'strained' : 'attn');
-    return '<div class="lever-score">' +
+  // lever cards
+  document.getElementById('r-levers').innerHTML = levers.map(lv =>
+    '<div class="lever-score">' +
+      '<div class="lv-top"><span class="lv-num">' + lv.avg.toFixed(2) + '</span>' +
+      '<span class="band-chip ' + lv.band.cls + '">' + lv.band.label + '</span></div>' +
       '<div class="lv-name">' + lv.name + '</div>' +
-      '<span class="band-chip ' + lv.band.cls + '">' + lv.band.label + '</span>' +
-      '<div class="scorebar"><div class="fill" style="width:' + Math.round((lv.avg / 5) * 100) + '%; background:' + lv.band.color + ';"></div></div>' +
-      '<div class="lv-read">' + LEVER_READS[lv.name][key] + '</div>' +
-    '</div>';
-  }).join('');
-
-  // render dimension rows
-  document.getElementById('r-dims').innerHTML = dims.map(d =>
-    '<div class="dim-r"><div><div class="dr-name">' + d.name + '</div>' +
-    '<div class="dr-lever">' + (d.lever ? d.lever : 'Your situation') + '</div></div>' +
-    '<span class="band-chip ' + band(d.avg).cls + '">' + band(d.avg).label + '</span></div>'
+      '<div class="lv-read">' + esc(lv.read) + '</div>' +
+      '<div class="scorebar"><div class="fill" style="width:' + (lv.avg / 5 * 100).toFixed(1) + '%; background:' + lv.band.hex + ';"></div></div>' +
+      '<div class="sb-ticks"><span>1</span><span>5</span></div>' +
+    '</div>'
   ).join('');
 
-  // first move: founder load wins if weak and present; otherwise lowest dimension
-  let target = dims.reduce((a, b) => (b.avg < a.avg ? b : a));
-  const fd = dims.find(d => d.id === 'founder');
-  if (fd && fd.avg <= 3 && fd.avg <= target.avg + 0.5) target = fd;
+  // dimension rows, lowest read first
+  const n = r.sorted.length;
+  document.getElementById('r-dims').innerHTML =
+    '<div class="dims-head"><span class="dh-label">' + (NUM[n] || n) + ' dimensions, lowest read first</span></div>' +
+    r.sorted.map(d =>
+      '<div class="dim-r"><div><div class="dr-name">' + d.name + '</div>' +
+      '<div class="dr-lever">' + (d.lever ? d.lever : 'Your situation') + '</div></div>' +
+      '<span class="dr-score">' + d.avg.toFixed(2) + '</span>' +
+      '<span class="band-chip ' + d.band.cls + '">' + d.band.label + '</span></div>'
+    ).join('');
 
-  const attnCount = dims.filter(d => band(d.avg) !== BANDS.strong).length;
-  document.getElementById('r-sub').textContent =
-    attnCount === 0
-      ? 'A strong self-read across the board. The question the full Index answers: does your team see it the same way?'
-      : attnCount === dims.length
-        ? 'The Snapshot reads ' + dims.length + ' dimensions. All ' + dims.length + ' are carrying strain, and one points to your first move.'
-        : 'The Snapshot reads ' + dims.length + ' dimensions. ' + attnCount + ' of them ' + (attnCount === 1 ? 'is' : 'are') + ' carrying strain, and one points to your first move.';
+  document.getElementById('r-sub').textContent = r.summary;
 
+  const fmName = target.name.charAt(0).toUpperCase() + target.name.slice(1);
   document.getElementById('r-firstmove').innerHTML =
+    '<div class="fm-arrow" aria-hidden="true">&rarr;</div><div>' +
     '<div class="fm-label">Your first move</div>' +
-    '<h3>' + target.name + '</h3>' +
-    '<p>' + target.read + ' This came back as your lowest read, which usually means it\'s quietly taxing everything else.</p>' +
-    '<p>The engagement built for this moment is <strong style="color:var(--navy);">' + target.eng.name + '</strong>.</p>' +
-    '<div class="fm-eng"><a class="btn btn-ghost" href="' + target.eng.href + '">Explore ' + target.eng.name + '</a></div>';
+    '<h3>' + fmName + '. ' + target.eng.name.replace(/ /g, '\u00a0') + '.</h3>' +
+    '<p>' + target.read + ' This came back as your lowest read, which usually means it\'s quietly taxing everything else. The engagement built for this moment is <strong>' + target.eng.name + '</strong>.</p>' +
+    '<div class="fm-eng"><a class="btn btn-primary" href="' + target.eng.href + '">Explore ' + target.eng.name + '</a></div></div>';
 
   // reveal
   if (!opts.silent) {
@@ -753,7 +722,7 @@ function showResults(state, answers, contact, opts) {
     phone: contact.phone || '',
     profile: readable(state),
     levers: levers.map(lv => lv.name + ': ' + lv.band.label + ' (' + lv.avg.toFixed(2) + ')').join('; '),
-    dimensions: dims.map(d => d.name + ': ' + band(d.avg).label).join('; '),
+    dimensions: r.dims.map(d => d.name + ': ' + d.band.label + ' (' + d.avg.toFixed(2) + ')').join('; '),
     'first-move': target.name + ' -> ' + target.eng.name,
     verified: opts.verified || 'not required',
     answers: readable(answers)
@@ -770,7 +739,7 @@ function showResults(state, answers, contact, opts) {
   fetch('/.netlify/functions/notify-lead', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(leadPayload)
+    body: JSON.stringify(Object.assign({}, leadPayload, { snapshot: { answers: answers, state: state } }))
   }).catch(function () {});
 }
 
