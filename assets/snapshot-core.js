@@ -184,8 +184,22 @@
     return { dims: dims, sorted: sorted, levers: levers, target: target, strainedCount: strained, summary: summary };
   }
 
+  // The sentence after the dimension's read in the first-move panel. When every
+  // dimension is strong, "quietly taxing everything else" would be wrong, so that
+  // case gets its own line (approved by Ben, November 5, 2026).
+  // voice: 'your' on the page and customer PDF, 'the' on the team PDF.
+  // itIs: "it's" on the page, "it is" in the PDF, matching each one's original copy.
+  function firstMoveText(result, voice, itIs) {
+    if (result.strainedCount === 0) {
+      return { line: 'Every dimension came back strong. This was ' + voice + ' lowest read, which makes it the place to go deeper next.',
+               lead: 'The engagement built for that is ' };
+    }
+    return { line: 'This came back as ' + voice + ' lowest read, which usually means ' + itIs + ' quietly taxing everything else.',
+             lead: 'The engagement built for this moment is ' };
+  }
+
   var api = { CORE_DIMS: CORE_DIMS, FOUNDER_DIM: FOUNDER_DIM, BOARD_DIM: BOARD_DIM, LEVER_READS: LEVER_READS,
-              LEVERS: LEVERS, BANDS: BANDS, band: band, normalizeState: normalizeState, dimsFor: dimsFor, score: score };
+              LEVERS: LEVERS, BANDS: BANDS, band: band, normalizeState: normalizeState, dimsFor: dimsFor, score: score, firstMoveText: firstMoveText };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.GDLSnapshot = api;
 })(typeof window !== 'undefined' ? window : this);
