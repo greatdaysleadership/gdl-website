@@ -80,6 +80,25 @@
   .pod-hero .lede { margin-top: 20px; }
   .pod-intro { padding-top: 56px; }
 }
+/* Recent episodes row. Cards start as the four newest episodes written below,
+   then the script swaps in the playlist's current four from latest-episodes. */
+.ep-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px; }
+.ep-card { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line);
+  transition: border-color .18s, box-shadow .18s; }
+.ep-card:hover { border-color: var(--slate-light); box-shadow: 0 14px 40px rgba(15,60,97,0.08); }
+.ep-thumb { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--navy); }
+.ep-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.ep-body { padding: 18px 20px 22px; }
+.ep-date { display: block; font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--slate); margin-bottom: 8px; }
+.ep-title { font-family: var(--serif); font-size: 18px; line-height: 1.35; color: var(--navy);
+  display: block; }
+.ep-more { margin-top: 30px; }
+@media (max-width: 900px) {
+  .ep-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+}
+@media (max-width: 560px) {
+  .ep-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -162,6 +181,41 @@
     </div>
     <div class="player-wrap reveal">
       <div id='buzzsprout-large-player'></div><script type='text/javascript' charset='utf-8' src='https://www.buzzsprout.com/2554410.js?container_id=buzzsprout-large-player&player=large'></script>
+    </div>
+  </div>
+</section>
+
+<!-- RECENT EPISODES
+     The four cards below are the fallback. The script at the end of the page
+     replaces them with the newest four in the Bad Days Leadership YouTube
+     playlist (via /.netlify/functions/latest-episodes). If that call fails,
+     these four stay. Refresh them now and then so the fallback is not stale. -->
+<section id="recent">
+  <div class="wrap">
+    <div class="section-head reveal" style="margin-bottom:30px;">
+      <span class="eyebrow">Recent episodes</span>
+      <h2>Watch recent conversations on YouTube.</h2>
+    </div>
+    <div class="ep-grid reveal" id="ep-grid">
+      <a class="ep-card" href="https://www.youtube.com/watch?v=VZefuep2VSI" data-video="VZefuep2VSI" target="_blank" rel="noopener">
+        <div class="ep-thumb"><img src="https://i.ytimg.com/vi/VZefuep2VSI/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async"></div>
+        <div class="ep-body"><span class="ep-date">Oct 20, 2026</span><span class="ep-title">The Whole Room Denied Feedback They Wrote Themselves | Pat Lencioni on Culture, Feedback, and AI</span></div>
+      </a>
+      <a class="ep-card" href="https://www.youtube.com/watch?v=WvN6ez1cU8Q" data-video="WvN6ez1cU8Q" target="_blank" rel="noopener">
+        <div class="ep-thumb"><img src="https://i.ytimg.com/vi/WvN6ez1cU8Q/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async"></div>
+        <div class="ep-body"><span class="ep-date">Oct 6, 2026</span><span class="ep-title">&quot;When You Get Mad, You Turn Into a Whole Different Person&quot; | Dr. Vannesia Darby</span></div>
+      </a>
+      <a class="ep-card" href="https://www.youtube.com/watch?v=V_AplMhoexk" data-video="V_AplMhoexk" target="_blank" rel="noopener">
+        <div class="ep-thumb"><img src="https://i.ytimg.com/vi/V_AplMhoexk/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async"></div>
+        <div class="ep-body"><span class="ep-date">Sep 8, 2026</span><span class="ep-title">&quot;I Honestly Believed I Was Bad at Everything&quot; | Kacy Maxwell</span></div>
+      </a>
+      <a class="ep-card" href="https://www.youtube.com/watch?v=2iaCS1L65q8" data-video="2iaCS1L65q8" target="_blank" rel="noopener">
+        <div class="ep-thumb"><img src="https://i.ytimg.com/vi/2iaCS1L65q8/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async"></div>
+        <div class="ep-body"><span class="ep-date">Aug 25, 2026</span><span class="ep-title">&quot;You&#39;ve Got to Get Me Out&quot; | Dr. Ken Jones on the Year He Told His Board He Was Breaking</span></div>
+      </a>
+    </div>
+    <div class="ep-more reveal">
+      <a href="https://www.youtube.com/playlist?list=PLMYjq2D3rYhifM5jjmTeTeNn7NYuMf5rh" class="btn btn-ghost" target="_blank" rel="noopener">See every episode</a>
     </div>
   </div>
 </section>
@@ -316,6 +370,41 @@
     }, { threshold: 0, rootMargin: '0px 0px 25% 0px' });
     for (var i = 0; i < els.length; i++) io.observe(els[i]);
   } catch (err) { showAll(); }
+})();
+</script>
+<script>
+// Swap the fallback cards for the playlist's newest four. Feed text is set with
+// textContent only, never as HTML.
+(function () {
+  var grid = document.getElementById('ep-grid');
+  if (!grid || !window.fetch) return;
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function fmt(iso) {
+    var d = new Date(iso);
+    if (isNaN(d)) return '';
+    return months[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', ' + d.getUTCFullYear();
+  }
+  fetch('/.netlify/functions/latest-episodes')
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (data) {
+      var eps = data && data.episodes;
+      if (!eps || eps.length !== 4) return;
+      for (var i = 0; i < eps.length; i++) {
+        if (!/^[A-Za-z0-9_-]{11}$/.test(eps[i].id)) return;
+      }
+      var cards = grid.querySelectorAll('.ep-card');
+      if (cards.length !== 4) return;
+      for (var j = 0; j < 4; j++) {
+        var e = eps[j], c = cards[j];
+        if (c.getAttribute('data-video') === e.id) continue;
+        c.setAttribute('data-video', e.id);
+        c.setAttribute('href', 'https://www.youtube.com/watch?v=' + e.id);
+        c.querySelector('img').setAttribute('src', 'https://i.ytimg.com/vi/' + e.id + '/hqdefault.jpg');
+        c.querySelector('.ep-date').textContent = fmt(e.published);
+        c.querySelector('.ep-title').textContent = String(e.title || '').replace(/\s+[\u2013\u2014]\s+/g, ' | ');
+      }
+    })
+    .catch(function () {});
 })();
 </script>
 </body>
